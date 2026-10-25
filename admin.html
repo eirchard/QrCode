@@ -25,7 +25,7 @@
   <div class="field"><label for="password">รหัสผ่าน</label><input id="password" type="password" autocomplete="current-password" required placeholder="รหัสผ่านของบัญชี Supabase"></div>
   <button id="loginBtn" class="primary-button" type="submit">เข้าสู่ระบบ Admin</button>
   <p id="loginError" class="login-alert hide" role="alert"></p>
-  <div class="login-note">เฉพาะผู้ดูแลที่ได้รับอนุญาต · ไม่มีระบบสมัครสมาชิกสาธารณะ<br><a class="help-link" href="./" style="display:inline-block;margin-top:8px">← กลับหน้า QR Forever</a></div>
+  <div class="login-note">เฉพาะผู้ดูแลที่ได้รับอนุญาต · ไม่มีระบบสมัครสมาชิกสาธารณะ<br><a class="help-link" href="https://github.com/eirchard/QrCode/blob/main/ADMIN-SETUP.md" target="_blank" rel="noopener noreferrer">วิธีเปิดใช้งานบัญชีผู้ดูแลครั้งแรก ↗</a><br><a class="help-link" href="./" style="display:inline-block;margin-top:8px">← กลับหน้า QR Forever</a></div>
  </form>
 </div>
 <div id="app" class="shell hide">
@@ -51,7 +51,7 @@
    <div class="section-row"><h2>วิเคราะห์การใช้งาน</h2><small class="muted">ข้อมูลอัปโหลดช่วง 7 วันที่ผ่านมา (UTC)</small></div>
    <div class="grid-2">
     <div class="card"><div class="between"><h2>ปริมาณการอัปโหลด</h2><span class="pill">7 วัน</span></div><div id="chart" class="chart"></div></div>
-    <div class="card"><h2>พื้นที่จัดเก็บ PDF</h2><div style="margin-top:16px"><div class="between"><strong id="usageLabel">—</strong><small class="muted" id="usagePercent">—</small></div><div class="progress"><span id="usageBar"></span></div><p class="hint">แสดงปริมาณ PDF ที่ระบบบันทึก เทียบกับโควตาที่ตั้งไว้ในแอป ไม่ใช่พื้นที่ว่างทั้งหมดของเซิร์ฟเวอร์ Supabase</p></div><div class="statusline"><span>จำนวนไฟล์ที่อนุญาต</span><strong id="fileUsage">—</strong></div><div class="statusline"><span>นโยบายการเก็บไฟล์</span><strong>เก็บจนกว่าผู้ดูแลจะลบ</strong></div></div>
+    <div class="card"><h2>พื้นที่จัดเก็บ PDF</h2><div style="margin-top:16px"><div class="between"><strong id="usageLabel">—</strong><small class="muted" id="usagePercent">—</small></div><div class="progress"><span id="usageBar"></span></div><p class="hint">แสดงปริมาณ PDF ที่ระบบบันทึก เทียบกับโควตาที่ตั้งไว้ในแอป ไม่ใช่พื้นที่ว่างทั้งหมดของเซิร์ฟเวอร์ Supabase <a class="help-link" href="https://supabase.com/dashboard/project/efxyzgdbjckoyxxqntxj" target="_blank" rel="noopener noreferrer">ตรวจสอบโควตาและการใช้งานจริงใน Supabase ↗</a></p></div><div class="statusline"><span>จำนวนไฟล์ที่อนุญาต</span><strong id="fileUsage">—</strong></div><div class="statusline"><span>นโยบายการเก็บไฟล์</span><strong>เก็บจนกว่าผู้ดูแลจะลบ</strong></div></div>
    </div>
    <div class="section-row"><h2>สถานะบริการ</h2><small class="muted">สถานะส่วนประกอบจากระบบ</small></div>
    <div class="grid-2">
