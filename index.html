@@ -30,11 +30,13 @@
       window.addEventListener('pageshow', cleanReferralUrl);
     })();
   </script>
+  <script>window.qrTurnstileLoaded=function(){window.dispatchEvent(new Event('qr-turnstile-ready'));};</script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&amp;onload=qrTurnstileLoaded" defer></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#0e453a">
   <meta name="description" content="สร้าง Static QR Code ที่ไม่มีวันหมดอายุ ฟรี ไม่ต้องสมัครสมาชิก รองรับ PDF ผ่านลิงก์แชร์ URL ข้อความ Wi-Fi อีเมลและโทรศัพท์ ดาวน์โหลด PNG หรือ SVG ได้ทันที">
-  <title>QR Forever v7 — สร้าง QR Code พร้อม Premium QR Frame Templates</title>
+  <title>QR Forever v9 — สร้าง QR Code พร้อม Premium QR Frame Templates</title>
   <style>
     :root{--forest:#0c4038;--forest2:#0a332d;--mint:#cfe8df;--gold:#f1c75e;--ink:#183330;--muted:#758680;--border:#dce7e1;--bg:#f4f8f5;--white:#fff;--danger:#bf3535;--radius:22px}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Prompt","Noto Sans Thai",Tahoma,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55}button,input,textarea,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.48}
@@ -175,6 +177,17 @@
     .pdf-warning strong{font-weight:800}
     @media(max-width:680px){.tabs{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;padding:14px 16px 1px}.tab{min-height:59px}.pdf-step{padding:13px}.pdf-actions{flex-direction:column;align-items:stretch}.pdf-action{width:100%}}
 
+    /* Premium single-step PDF uploader */
+    .pdf-simple-zone{padding:22px 20px;border:1.5px dashed #b5d1c2;background:#f9fcfa;border-radius:18px;text-align:center}
+    .pdf-simple-zone .field-label{font-size:14px;color:#1a4e3b;margin:0 0 12px}
+    .pdf-simple-icon{width:56px;height:64px;display:grid;place-items:center;background:#dcece3;border:1px solid #b9d2c4;border-radius:12px;color:#18513b;font-weight:900;letter-spacing:1px;margin:0 auto 15px}
+    .pdf-simple-zone .pdf-selection{margin:11px 0;color:#60766a}
+    .pdf-turnstile-box{min-height:1px;display:flex;justify-content:center;margin:9px 0}
+    .pdf-primary-upload{width:100%;background:#164e3a;color:#fff;border-color:#164e3a;padding:14px 18px;font-size:14px;margin-top:15px}
+    .pdf-primary-upload:hover{background:#0f3c2c;color:#fff}
+    .pdf-primary-upload:disabled{opacity:.55;cursor:wait}
+    .pdf-safe-note{font-size:11px;color:#6d786b;line-height:1.8;margin:0;padding:0 3px}
+    @media(max-width:540px){.pdf-simple-zone{padding:19px 13px}.pdf-turnstile-box{max-width:100%;overflow:hidden}}
   </style>
 </head>
 <body>
@@ -211,28 +224,22 @@
           <div id="fields-url"><div class="field"><label for="url">ลิงก์เว็บไซต์ (URL) <span aria-hidden="true" style="color:#b64a42">*</span></label><input class="input" id="url" type="url" inputmode="url" autocomplete="url" placeholder="https://www.example.com" spellcheck="false"><p class="hint">ใช้ลิงก์ปลายทางโดยตรง ไม่ผ่านเว็บย่อลิงก์หรือระบบติดตาม</p></div></div>
           <div id="fields-pdf" class="hide">
             <div class="pdf-guide">
-              <div class="pdf-intro"><strong>PDF → QR Code · เก็บไฟล์จนกว่าผู้ดูแลจะลบ</strong><p>เข้าสู่ระบบผู้ดูแล เลือก PDF แล้วกดอัปโหลด ระบบจะสร้าง QR Code โดยอัตโนมัติ (สูงสุด 5 MB/ไฟล์)</p></div>
-              <div class="pdf-step">
-                <div class="pdf-step-head"><span class="pdf-step-index">1</span><div><b>เข้าสู่ระบบผู้ดูแล PDF</b><small>บัญชี Supabase ของระบบ QR Forever โดยเฉพาะ</small></div></div>
-                <label for="pdf-email" class="field-label">อีเมล</label><input class="input" id="pdf-email" type="email" autocomplete="email" placeholder="you@example.com">
-                <label for="pdf-password" class="field-label">รหัสผ่าน</label><input class="input" id="pdf-password" type="password" autocomplete="current-password" placeholder="รหัสผ่านอย่างน้อย 6 ตัวอักษร">
-                <div class="pdf-actions"><button id="pdf-login" type="button" class="pdf-action">เข้าสู่ระบบ</button><button id="pdf-signup" type="button" class="pdf-action secondary">สมัครบัญชีผู้ดูแลครั้งแรก</button><button id="pdf-logout" type="button" class="pdf-action secondary hide">ออกจากระบบ</button></div>
-                <p id="pdf-auth-status" class="pdf-link-note" role="status" aria-live="polite">ใช้บัญชีผู้ดูแลที่ได้รับสิทธิ์ในระบบนี้เท่านั้น</p>
+              <div class="pdf-intro">
+                <strong>PDF → QR Code ในคลิกเดียว</strong>
+                <p>เลือกไฟล์ PDF และกดอัปโหลด ระบบจะเก็บไฟล์และสร้าง QR Code ให้อัตโนมัติ ไม่ต้องเข้าสู่ระบบหรือสมัครสมาชิก</p>
               </div>
-              <div class="pdf-step">
-                <div class="pdf-step-head"><span class="pdf-step-index">2</span><div><b>อัปโหลดและสร้าง QR Code</b><small>ไม่ต้องฝาก Google Drive หรือคัดลอกลิงก์อีกต่อไป</small></div></div>
-                <input id="pdf-file" class="pdf-file-input" type="file" accept=".pdf,application/pdf">
-                <p id="pdf-selection" class="pdf-selection">ยังไม่ได้เลือกไฟล์</p>
-                <div class="pdf-actions"><button type="button" class="pdf-action" id="pdf-upload">อัปโหลดและสร้าง QR Code</button></div>
-                <p id="pdf-upload-status" class="pdf-link-note" role="status" aria-live="polite"></p>
+              <div class="pdf-simple-zone">
+                <div class="pdf-simple-icon" aria-hidden="true">PDF</div>
+                <label for="pdf-file" class="field-label">เลือกไฟล์ PDF จากเครื่อง</label>
+                <input id="pdf-file" class="pdf-file-input" type="file" accept=".pdf,application/pdf" aria-describedby="pdf-selection">
+                <p id="pdf-selection" class="pdf-selection" role="status">รองรับไฟล์ PDF ขนาดไม่เกิน 5 MB</p>
+                <div id="pdf-turnstile" class="pdf-turnstile-box"></div>
+                <p id="pdf-turnstile-status" class="pdf-link-note">ระบบกำลังเตรียมการตรวจสอบความปลอดภัย</p>
+                <button type="button" class="pdf-action pdf-primary-upload" id="pdf-upload">อัปโหลดและสร้าง QR Code</button>
+                <p id="pdf-upload-status" class="pdf-link-note" role="status" aria-live="polite">ไฟล์จะถูกเก็บไว้จนกว่าผู้ดูแลจะลบเอง</p>
               </div>
-              <details class="pdf-step" id="pdf-manage-panel">
-                <summary style="cursor:pointer;font-weight:750;font-size:13px">จัดการไฟล์ PDF · ผู้ดูแล</summary>
-                <div class="pdf-actions"><button id="pdf-refresh" type="button" class="pdf-action secondary">โหลดรายการไฟล์</button></div>
-                <div id="pdf-file-list" style="display:grid;gap:8px;margin-top:12px"></div>
-              </details>
-              <details class="pdf-step"><summary style="cursor:pointer;font-weight:750;font-size:13px">มีลิงก์ PDF อยู่แล้ว? สร้าง QR จากลิงก์</summary><div style="margin-top:12px"><label for="pdf-link" class="field-label">ลิงก์ PDF</label><input class="input" id="pdf-link" type="url" placeholder="https://.../document.pdf"><div class="pdf-actions"><button type="button" class="pdf-action secondary" id="pdf-test">ทดสอบเปิดลิงก์ ↗</button></div><p class="pdf-link-note" id="pdf-link-note">วางลิงก์แล้วกดสร้าง QR Code ด้านล่างได้</p></div></details>
-              <div class="pdf-warning"><strong>นโยบาย:</strong> ไม่มีการลบไฟล์อัตโนมัติ ไฟล์จะคงอยู่จนกว่าผู้ดูแลจะลบเอง แต่เมื่อถูกลบ QR Code เดิมจะเปิดเอกสารไม่ได้ ห้ามอัปโหลดเอกสารลับ เพราะไฟล์ที่แชร์ผ่าน QR เปิดได้ทุกคนที่มีลิงก์</div>
+              <p class="pdf-safe-note"><strong>การแชร์เอกสาร:</strong> ทุกคนที่มี QR Code สามารถเปิด PDF ได้ โปรดอย่าอัปโหลดไฟล์ลับหรือข้อมูลส่วนบุคคล เมื่อผู้ดูแลลบไฟล์ QR Code เดิมจะไม่สามารถเปิดเอกสารได้</p>
+              <input id="pdf-link" type="hidden" value="">
             </div>
           </div>
           <div id="fields-text" class="hide"><div class="field"><label for="text">ข้อความที่ต้องการใส่ใน QR Code</label><textarea class="textarea" id="text" maxlength="2500" placeholder="พิมพ์ข้อความภาษาไทยหรือภาษาอังกฤษได้ที่นี่"></textarea></div></div>
@@ -1910,87 +1917,113 @@ module.exports = QRCode;
       if(u.searchParams.get('utm_source')==='chatgpt.com')u.searchParams.delete('utm_source');
       return u.href;
     }
-    const SB_URL='https://efxyzgdbjckoyxxqntxj.supabase.co';
-    const SB_KEY='sb_publishable_G8vm8eSVGTvcOAJ65aU2oQ_onsep3ZK';
-    const PDF_UPLOAD_ENDPOINT=SB_URL+'/functions/v1/pdf-upload';
-    let pdfSession=null;
-    function authHeaders(){return {'apikey':SB_KEY,'Authorization':'Bearer '+pdfSession.access_token};}
-    function pdfAuthUI(){const on=!!pdfSession;$('pdf-login').classList.toggle('hide',on);$('pdf-signup').classList.toggle('hide',on);$('pdf-logout').classList.toggle('hide',!on);$('pdf-upload').disabled=!on;$('pdf-auth-status').textContent=on?'เข้าสู่ระบบแล้ว: '+(pdfSession.user?.email||'ผู้ดูแล'):'ยังไม่ได้เข้าสู่ระบบ · ต้องเป็นบัญชีที่ได้รับสิทธิ์จากเจ้าของระบบ';}
-    pdfAuthUI();
-    async function authCall(mode){
-      const email=$('pdf-email').value.trim(),password=$('pdf-password').value;
-      if(!/^\S+@\S+\.\S+$/.test(email)||password.length<6){showError('กรอกอีเมลและรหัสผ่านอย่างน้อย 6 ตัวอักษร');return;}
-      clearError();const url=SB_URL+'/auth/v1/'+(mode==='signup'?'signup':'token?grant_type=password');
-      try {
-        const resp=await fetch(url,{method:'POST',headers:{'apikey':SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({email,password})});
-        const data=await resp.json();
-        if(!resp.ok)throw Error(data.msg||data.error_description||data.message||'เข้าสู่ระบบไม่สำเร็จ');
-        if(!data.access_token){$('pdf-auth-status').textContent='สมัครสำเร็จ กรุณายืนยันอีเมลตามข้อความที่ Supabase ส่งมา แล้วเข้าสู่ระบบ';return;}
-        pdfSession=data;pdfAuthUI();$('pdf-password').value='';
-        $('pdf-auth-status').textContent='เข้าสู่ระบบสำเร็จ · ตรวจสอบสิทธิ์ผู้ดูแลเมื่ออัปโหลด';
-      }catch(err){showError(err.message);}
-    }
-    $('pdf-login').addEventListener('click',()=>authCall('login'));
-    $('pdf-signup').addEventListener('click',()=>authCall('signup'));
-    $('pdf-logout').addEventListener('click',()=>{pdfSession=null;pdfAuthUI();$('pdf-file-list').replaceChildren();});
+    const PDF_UPLOAD_ENDPOINT='https://efxyzgdbjckoyxxqntxj.supabase.co/functions/v1/pdf-public-upload';
+    const PDF_SITE_KEY='0x4AAAAAAFlJLTY3oHood4gH';
     const pdfFile=$('pdf-file');
+    let pdfWidgetId=null, pdfVerifiedToken='', pdfServerReady=null;
+
+    function initPdfTurnstile(){
+      if(currentType!=='pdf'||!window.turnstile||pdfWidgetId!==null)return;
+      try{
+        pdfWidgetId=window.turnstile.render('#pdf-turnstile',{
+          sitekey:PDF_SITE_KEY,
+          action:'qr_pdf_upload',
+          theme:'light',
+          appearance:'interaction-only',
+          callback:token=>{
+            pdfVerifiedToken=token;
+            $('pdf-turnstile-status').textContent='ตรวจสอบความปลอดภัยเรียบร้อย';
+          },
+          'expired-callback':()=>{
+            pdfVerifiedToken='';
+            $('pdf-turnstile-status').textContent='การตรวจสอบหมดอายุ กรุณาตรวจสอบใหม่';
+          },
+          'error-callback':()=>{
+            pdfVerifiedToken='';
+            $('pdf-turnstile-status').textContent='ไม่สามารถตรวจสอบ Turnstile ได้ กรุณารีเฟรชหน้าเว็บ';
+          }
+        });
+        $('pdf-turnstile-status').textContent='กำลังตรวจสอบความปลอดภัยอัตโนมัติ';
+      }catch(e){
+        $('pdf-turnstile-status').textContent='โหลด Turnstile ไม่สำเร็จ กรุณารีเฟรช';
+      }
+    }
+    window.addEventListener('qr-turnstile-ready',initPdfTurnstile);
+    async function checkPdfBackend(){
+      if(pdfServerReady!==null)return;
+      try{
+        const r=await fetch(PDF_UPLOAD_ENDPOINT,{method:'GET',cache:'no-store'});
+        const data=await r.json();
+        pdfServerReady=r.ok&&data.ready===true;
+        if(!pdfServerReady){
+          $('pdf-turnstile-status').textContent='ผู้ดูแลยังไม่ได้ตั้งค่า Turnstile Secret Key บน Supabase';
+        }
+      }catch(e){
+        pdfServerReady=false;
+        $('pdf-turnstile-status').textContent='เชื่อมต่อระบบรับ PDF ไม่สำเร็จ';
+      }
+    }
+    function resetPdfChallenge(){
+      pdfVerifiedToken='';
+      if(pdfWidgetId!==null&&window.turnstile){
+        try{window.turnstile.reset(pdfWidgetId)}catch(e){}
+      }
+    }
     pdfFile.addEventListener('change',async()=>{
       const file=pdfFile.files[0];
-      if(!file){$('pdf-selection').textContent='ยังไม่ได้เลือกไฟล์';return;}
-      if(!/\.pdf$/i.test(file.name)||file.size>5*1024*1024||file.size<5||!['','application/pdf'].includes(file.type)||new TextDecoder().decode(await file.slice(0,5).arrayBuffer())!=='%PDF-'){
-        pdfFile.value='';showError('รองรับเฉพาะ PDF ที่ถูกต้องขนาดไม่เกิน 5 MB');return;
+      if(!file){$('pdf-selection').textContent='รองรับไฟล์ PDF ขนาดไม่เกิน 5 MB';return;}
+      const head=new TextDecoder().decode(await file.slice(0,5).arrayBuffer());
+      if(file.size<5||file.size>5*1024*1024||!file.name.toLowerCase().endsWith('.pdf')||
+         !['','application/pdf'].includes(file.type)||head!=='%PDF-'){
+        pdfFile.value='';
+        $('pdf-selection').textContent='รองรับไฟล์ PDF ขนาดไม่เกิน 5 MB';
+        showError('ไฟล์ต้องเป็น PDF ที่ถูกต้องและมีขนาดไม่เกิน 5 MB');
+        return;
       }
-      clearError();$('pdf-selection').textContent=file.name+' · '+(file.size/1024/1024).toFixed(2)+' MB';
+      clearError();
+      $('pdf-selection').textContent=file.name+' · '+(file.size/1048576).toFixed(2)+' MB';
     });
-    async function pdfRequest(form){
-      if(!pdfSession)throw Error('กรุณาเข้าสู่ระบบผู้ดูแลก่อน');
-      const response=await fetch(PDF_UPLOAD_ENDPOINT,{method:'POST',headers:authHeaders(),body:form});
-      const data=await response.json().catch(()=>({}));
-      if(!response.ok||!data.ok)throw Error(data.error||'เซิร์ฟเวอร์ไม่สามารถดำเนินการได้');
-      return data;
-    }
     $('pdf-upload').addEventListener('click',async()=>{
-      const file=pdfFile.files[0];if(!file){showError('กรุณาเลือกไฟล์ PDF ก่อน');return;}
-      clearError();const btn=$('pdf-upload');btn.disabled=true;btn.textContent='กำลังอัปโหลด...';
+      clearError();
+      const file=pdfFile.files[0];
+      if(!file){showError('กรุณาเลือกไฟล์ PDF ก่อน');return;}
+      if(pdfServerReady!==true){await checkPdfBackend();if(!pdfServerReady){showError('ระบบอัปโหลดยังไม่พร้อม กรุณาติดต่อผู้ดูแล');return;}}
+      initPdfTurnstile();
+      const token=pdfVerifiedToken||(pdfWidgetId!==null&&window.turnstile?window.turnstile.getResponse(pdfWidgetId):'');
+      if(!token){showError('กรุณาผ่านการตรวจสอบความปลอดภัยก่อนอัปโหลด');return;}
+      const button=$('pdf-upload');
+      button.disabled=true;
+      button.textContent='กำลังอัปโหลด PDF...';
+      $('pdf-upload-status').textContent='กำลังจัดเก็บ PDF กรุณาอย่าปิดหน้าต่าง';
       try{
-        const form=new FormData();form.append('action','upload');form.append('file',file,file.name);
-        const data=await pdfRequest(form);
+        const body=new FormData();
+        body.append('file',file,file.name);
+        body.append('turnstile_token',token);
+        const resp=await fetch(PDF_UPLOAD_ENDPOINT,{method:'POST',body});
+        const data=await resp.json().catch(()=>({}));
+        if(!resp.ok||data.ok!==true||!data.url)throw Error(data.error||'อัปโหลด PDF ไม่สำเร็จ');
         $('pdf-link').value=normalizePdfLink(data.url);
-        if(!create())throw Error('อัปโหลดสำเร็จ แต่สร้าง QR Code ไม่สำเร็จ');
-        $('pdf-upload-status').textContent='อัปโหลดสำเร็จ · ไฟล์จะคงอยู่จนกว่าผู้ดูแลจะลบ';
-        $('pdf-file').value='';inform('สร้าง QR Code สำหรับ PDF แล้ว');
-      }catch(err){showError(err.message);$('pdf-upload-status').textContent='ไม่สามารถอัปโหลดไฟล์ได้';}
-      finally{btn.textContent='อัปโหลดและสร้าง QR Code';btn.disabled=!pdfSession;}
-    });
-    $('pdf-refresh').addEventListener('click',async()=>{
-      clearError();const list=$('pdf-file-list');list.replaceChildren();
-      try{
-        const form=new FormData();form.append('action','list');
-        const data=await pdfRequest(form);
-        if(!data.files.length){list.textContent='ยังไม่มีไฟล์ PDF';return;}
-        for(const item of data.files){
-          const card=document.createElement('div');card.style.cssText='border:1px solid #e0e9e2;border-radius:12px;padding:12px;overflow-wrap:anywhere;';
-          const title=document.createElement('strong');title.textContent=item.original_name;title.style.display='block';
-          const meta=document.createElement('small');meta.textContent=new Date(item.created_at).toLocaleString('th-TH')+' · '+(item.size_bytes/1024/1024).toFixed(2)+' MB';meta.style.display='block';
-          const a=document.createElement('a');a.href=item.url;a.textContent='เปิด PDF ↗';a.target='_blank';a.rel='noopener noreferrer';a.style.marginRight='12px';
-          const del=document.createElement('button');del.type='button';del.textContent='ลบไฟล์';del.className='pdf-action secondary';del.style.marginTop='7px';
-          del.addEventListener('click',async()=>{
-            if(!confirm('ยืนยันลบไฟล์ '+item.original_name+'? QR Code เดิมจะเปิดไฟล์ไม่ได้ และไม่สามารถกู้คืนผ่านเว็บไซต์ได้'))return;
-            const form=new FormData();form.append('action','delete');form.append('id',item.id);
-            try{del.disabled=true;await pdfRequest(form);card.remove();inform('ลบไฟล์แล้ว');}catch(err){showError(err.message);del.disabled=false;}
-          });
-          card.append(title,meta,a,del);list.appendChild(card);
-        }
-      }catch(err){showError(err.message);}
-    });
-    $('pdf-test').addEventListener('click',()=>{
-      clearError();let link;try{link=normalizePdfLink($('pdf-link').value);}catch(err){showError(err.message);return;}
-      window.open(link,'_blank','noopener,noreferrer');
-      $('pdf-link-note').textContent='ควรทดสอบว่าเปิด PDF ได้ในหน้าต่างไม่ระบุตัวตน';
+        if(!create())throw Error('อัปโหลด PDF สำเร็จ แต่ QR Code ยังสร้างไม่สำเร็จ');
+        pdfFile.value='';
+        $('pdf-selection').textContent='อัปโหลดไฟล์เรียบร้อย';
+        $('pdf-upload-status').textContent='สำเร็จ! ดาวน์โหลด QR Code ทางด้านขวาหรือด้านล่างได้ทันที';
+        inform('สร้าง QR Code สำหรับ PDF สำเร็จ');
+        document.querySelector('.preview-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+      }catch(err){
+        showError(err.message||'อัปโหลดไม่สำเร็จ');
+        $('pdf-upload-status').textContent='ไม่สามารถสร้าง QR Code จากไฟล์ได้ กรุณาลองใหม่';
+      }finally{
+        resetPdfChallenge();
+        button.disabled=false;
+        button.textContent='อัปโหลดและสร้าง QR Code';
+      }
     });
     tabs.forEach(tab=>tab.addEventListener('click',()=>{
       currentType=tab.dataset.type;tabs.forEach(t=>{t.setAttribute('aria-selected',String(t===tab));t.tabIndex=t===tab?0:-1;});
-      types.forEach(type=>$('fields-'+type).classList.toggle('hide',type!==currentType));clearError();clearPreview();
+      types.forEach(type=>$('fields-'+type).classList.toggle('hide',type!==currentType));
+      $('create').classList.toggle('hide',currentType==='pdf');
+      clearError();clearPreview();
+      if(currentType==='pdf'){initPdfTurnstile();checkPdfBackend();}
     }));
     for(const el of document.querySelectorAll('[id^="fields-"] input,[id^="fields-"] textarea,[id^="fields-"] select')){
       el.addEventListener('input',()=>{clearError();if(currentMatrix)clearPreview();});
