@@ -2,6 +2,16 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
+  <script>
+    // Remove ChatGPT's optional referral query parameter from the address bar.
+    (function () {
+      const url = new URL(window.location.href);
+      if (url.searchParams.get('utm_source') === 'chatgpt.com') {
+        url.searchParams.delete('utm_source');
+        window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
+      }
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#0e453a">
