@@ -2,20 +2,28 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
+  <link rel="canonical" href="https://eirchard.github.io/QrCode/">
   <script>
-    // Keep the site's address bar clean when opened through a tracked link.
+    // Strip ChatGPT's tracking parameter from the actual page URL.
     (function () {
       function cleanReferralUrl() {
         try {
           var url = new URL(window.location.href);
-          var fromChatGPT = url.searchParams.getAll('utm_source').some(function (value) {
+          var tracked = url.searchParams.getAll('utm_source').some(function (value) {
             return value.toLowerCase() === 'chatgpt.com';
           });
-          if (!fromChatGPT) return;
+          if (!tracked) return;
           url.searchParams.delete('utm_source');
-          window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
+          var cleanURL = url.pathname + url.search + url.hash;
+          // A real navigation makes the clean URL visible even if history APIs are
+          // ignored by an embedded browser. Other query parameters are preserved.
+          window.location.replace(cleanURL);
         } catch (err) {
-          console.warn('Could not clean referral URL:', err);
+          try {
+            var u = new URL(window.location.href);
+            u.searchParams.delete('utm_source');
+            window.history.replaceState(window.history.state, '', u.pathname + u.search + u.hash);
+          } catch (ignored) {}
         }
       }
       cleanReferralUrl();
