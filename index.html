@@ -209,32 +209,7 @@
             </div>
           </div>
           <div id="fields-url"><div class="field"><label for="url">ลิงก์เว็บไซต์ (URL) <span aria-hidden="true" style="color:#b64a42">*</span></label><input class="input" id="url" type="url" inputmode="url" autocomplete="url" placeholder="https://www.example.com" spellcheck="false"><p class="hint">ใช้ลิงก์ปลายทางโดยตรง ไม่ผ่านเว็บย่อลิงก์หรือระบบติดตาม</p></div></div>
-          <div id="fields-pdf" class="hide">
-            <div class="pdf-guide">
-              <div class="pdf-intro"><strong>PDF → QR Code · เก็บไฟล์จนกว่าผู้ดูแลจะลบ</strong><p>เข้าสู่ระบบผู้ดูแล เลือก PDF แล้วกดอัปโหลด ระบบจะสร้าง QR Code โดยอัตโนมัติ (สูงสุด 5 MB/ไฟล์)</p></div>
-              <div class="pdf-step">
-                <div class="pdf-step-head"><span class="pdf-step-index">1</span><div><b>เข้าสู่ระบบผู้ดูแล PDF</b><small>บัญชี Supabase ของระบบ QR Forever โดยเฉพาะ</small></div></div>
-                <label for="pdf-email" class="field-label">อีเมล</label><input class="input" id="pdf-email" type="email" autocomplete="email" placeholder="you@example.com">
-                <label for="pdf-password" class="field-label">รหัสผ่าน</label><input class="input" id="pdf-password" type="password" autocomplete="current-password" placeholder="รหัสผ่านอย่างน้อย 6 ตัวอักษร">
-                <div class="pdf-actions"><button id="pdf-login" type="button" class="pdf-action">เข้าสู่ระบบ</button><button id="pdf-signup" type="button" class="pdf-action secondary">สมัครบัญชีผู้ดูแลครั้งแรก</button><button id="pdf-logout" type="button" class="pdf-action secondary hide">ออกจากระบบ</button></div>
-                <p id="pdf-auth-status" class="pdf-link-note" role="status" aria-live="polite">ใช้บัญชีผู้ดูแลที่ได้รับสิทธิ์ในระบบนี้เท่านั้น</p>
-              </div>
-              <div class="pdf-step">
-                <div class="pdf-step-head"><span class="pdf-step-index">2</span><div><b>อัปโหลดและสร้าง QR Code</b><small>ไม่ต้องฝาก Google Drive หรือคัดลอกลิงก์อีกต่อไป</small></div></div>
-                <input id="pdf-file" class="pdf-file-input" type="file" accept=".pdf,application/pdf">
-                <p id="pdf-selection" class="pdf-selection">ยังไม่ได้เลือกไฟล์</p>
-                <div class="pdf-actions"><button type="button" class="pdf-action" id="pdf-upload">อัปโหลดและสร้าง QR Code</button></div>
-                <p id="pdf-upload-status" class="pdf-link-note" role="status" aria-live="polite"></p>
-              </div>
-              <details class="pdf-step" id="pdf-manage-panel">
-                <summary style="cursor:pointer;font-weight:750;font-size:13px">จัดการไฟล์ PDF · ผู้ดูแล</summary>
-                <div class="pdf-actions"><button id="pdf-refresh" type="button" class="pdf-action secondary">โหลดรายการไฟล์</button></div>
-                <div id="pdf-file-list" style="display:grid;gap:8px;margin-top:12px"></div>
-              </details>
-              <details class="pdf-step"><summary style="cursor:pointer;font-weight:750;font-size:13px">มีลิงก์ PDF อยู่แล้ว? สร้าง QR จากลิงก์</summary><div style="margin-top:12px"><label for="pdf-link" class="field-label">ลิงก์ PDF</label><input class="input" id="pdf-link" type="url" placeholder="https://.../document.pdf"><div class="pdf-actions"><button type="button" class="pdf-action secondary" id="pdf-test">ทดสอบเปิดลิงก์ ↗</button></div><p class="pdf-link-note" id="pdf-link-note">วางลิงก์แล้วกดสร้าง QR Code ด้านล่างได้</p></div></details>
-              <div class="pdf-warning"><strong>นโยบาย:</strong> ไม่มีการลบไฟล์อัตโนมัติ ไฟล์จะคงอยู่จนกว่าผู้ดูแลจะลบเอง แต่เมื่อถูกลบ QR Code เดิมจะเปิดเอกสารไม่ได้ ห้ามอัปโหลดเอกสารลับ เพราะไฟล์ที่แชร์ผ่าน QR เปิดได้ทุกคนที่มีลิงก์</div>
-            </div>
-          </div>
+          <div id="fields-pdf" class="hide"><div class="pdf-guide"><div class="pdf-intro"><strong>PDF → QR Code</strong><p>เลือก PDF แล้วกดอัปโหลด ระบบจะสร้าง QR Code ให้ทันที ไม่ต้องสมัครสมาชิก</p></div><div class="pdf-step"><label for="pdf-file" class="field-label">เลือกไฟล์ PDF ไม่เกิน 5 MB</label><input id="pdf-file" class="pdf-file-input" type="file" accept=".pdf,application/pdf"><p id="pdf-selection" class="pdf-selection">ยังไม่ได้เลือกไฟล์</p><button id="pdf-upload" class="pdf-action" type="button">อัปโหลดและสร้าง QR Code</button><p id="pdf-upload-status" class="pdf-link-note" role="status"></p></div><div class="pdf-warning">ไฟล์จะเก็บไว้จนกว่าผู้ดูแลลบเอง ไม่ควรอัปโหลดเอกสารลับ ผู้มี QR สามารถเปิดไฟล์ได้</div><input id="pdf-link" type="hidden"></div></div>
           <div id="fields-text" class="hide"><div class="field"><label for="text">ข้อความที่ต้องการใส่ใน QR Code</label><textarea class="textarea" id="text" maxlength="2500" placeholder="พิมพ์ข้อความภาษาไทยหรือภาษาอังกฤษได้ที่นี่"></textarea></div></div>
           <div id="fields-wifi" class="hide"><div class="field"><label for="ssid">ชื่อเครือข่าย Wi-Fi (SSID)</label><input class="input" id="ssid" type="text" maxlength="150" placeholder="เช่น College-WiFi" autocomplete="off"></div><div class="input-row"><div class="field"><label for="password">รหัสผ่าน Wi-Fi</label><input class="input" id="password" type="password" maxlength="150" autocomplete="off" placeholder="รหัสผ่านเครือข่าย"></div><div class="field mini-col"><label for="security">การเข้ารหัส</label><select class="select" id="security"><option value="WPA">WPA / WPA2</option><option value="nopass">ไม่มีรหัสผ่าน</option><option value="WEP">WEP</option></select></div></div><label class="check-row" for="hidden"><input type="checkbox" id="hidden">เครือข่าย Wi-Fi แบบซ่อนชื่อ</label><p class="hint">QR Code ประเภทนี้จะเก็บรหัสผ่านไว้ในตัวภาพ ผู้ที่สแกนสามารถอ่านข้อมูลได้</p></div>
           <div id="fields-email" class="hide"><div class="field"><label for="email">ที่อยู่อีเมล</label><input class="input" id="email" type="email" inputmode="email" placeholder="name@example.com"></div><div class="field"><label for="subject">หัวข้ออีเมล (ถ้ามี)</label><input class="input" id="subject" type="text" placeholder="หัวข้ออีเมล"></div><div class="field"><label for="body">เนื้อหาอีเมล (ถ้ามี)</label><textarea class="textarea" id="body" style="min-height:75px" placeholder="ข้อความในอีเมล"></textarea></div></div>
