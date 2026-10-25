@@ -34,7 +34,7 @@
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#0e453a">
   <meta name="description" content="สร้าง Static QR Code ที่ไม่มีวันหมดอายุ ฟรี ไม่ต้องสมัครสมาชิก รองรับ PDF ผ่านลิงก์แชร์ URL ข้อความ Wi-Fi อีเมลและโทรศัพท์ ดาวน์โหลด PNG หรือ SVG ได้ทันที">
-  <title>QR Forever v6 — สร้าง QR Code พร้อม Premium QR Frame Templates</title>
+  <title>QR Forever v6.2 — สร้าง QR Code พร้อม Premium QR Frame Templates</title>
   <style>
     :root{--forest:#0c4038;--forest2:#0a332d;--mint:#cfe8df;--gold:#f1c75e;--ink:#183330;--muted:#758680;--border:#dce7e1;--bg:#f4f8f5;--white:#fff;--danger:#bf3535;--radius:22px}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Prompt","Noto Sans Thai",Tahoma,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55}button,input,textarea,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.48}
@@ -211,28 +211,29 @@
           <div id="fields-url"><div class="field"><label for="url">ลิงก์เว็บไซต์ (URL) <span aria-hidden="true" style="color:#b64a42">*</span></label><input class="input" id="url" type="url" inputmode="url" autocomplete="url" placeholder="https://www.example.com" spellcheck="false"><p class="hint">ใช้ลิงก์ปลายทางโดยตรง ไม่ผ่านเว็บย่อลิงก์หรือระบบติดตาม</p></div></div>
           <div id="fields-pdf" class="hide">
             <div class="pdf-guide">
-              <div class="pdf-intro">
-                <strong>เปลี่ยนไฟล์ PDF เป็น QR Code สำหรับเปิดเอกสาร</strong>
-                <p>เมื่อสแกน QR จะเปิดเอกสารผ่านลิงก์ที่แชร์ไว้ ไม่ได้ฝังไฟล์ PDF ลงใน QR Code โดยตรง ใช้กับคู่มือ เอกสารประกอบการสอน เมนู และงานประชาสัมพันธ์ได้</p>
-              </div>
+              <div class="pdf-intro"><strong>PDF → QR Code ในขั้นตอนเดียว</strong><p>เลือก PDF แล้วกดอัปโหลด ระบบจะสร้าง QR Code ให้ทันทีเมื่อเชื่อมต่อพื้นที่จัดเก็บไฟล์เรียบร้อย</p></div>
               <div class="pdf-step">
-                <div class="pdf-step-head"><span class="pdf-step-index">1</span><div><b>เลือกไฟล์ PDF จากเครื่อง (ถ้ามี)</b><small>สำหรับตรวจสอบชื่อไฟล์ก่อนนำไปฝากบน Google Drive — ยังไม่ใช่การอัปโหลด</small></div></div>
+                <label for="pdf-file" class="field-label">เลือกไฟล์ PDF (สูงสุด 5 MB)</label>
                 <input id="pdf-file" class="pdf-file-input" type="file" accept=".pdf,application/pdf" aria-describedby="pdf-selection">
-                <p id="pdf-selection" class="pdf-selection" role="status">ยังไม่ได้เลือกไฟล์ · หรือข้ามขั้นตอนนี้ได้หากมีลิงก์ PDF อยู่แล้ว</p>
+                <p id="pdf-selection" class="pdf-selection" role="status">ยังไม่ได้เลือกไฟล์</p>
+                <div id="pdf-upload-config" class="hide">
+                  <label for="pdf-upload-code" class="field-label">รหัสสิทธิ์อัปโหลดของผู้ดูแล</label>
+                  <input id="pdf-upload-code" class="input" type="password" autocomplete="off" placeholder="รหัสที่ตั้งไว้สำหรับระบบรับไฟล์">
+                  <p class="pdf-link-note">รหัสนี้ใช้อนุญาตการอัปโหลด ไม่ถูกบันทึกในเว็บไซต์หรือ QR Code</p>
+                </div>
+                <div class="pdf-actions"><button type="button" class="pdf-action" id="pdf-upload">อัปโหลดและสร้าง QR Code</button></div>
+                <p id="pdf-upload-status" class="pdf-link-note" role="status" aria-live="polite"></p>
               </div>
-              <div class="pdf-step">
-                <div class="pdf-step-head"><span class="pdf-step-index">2</span><div><b>อัปโหลด PDF ไปยัง Google Drive</b><small>เมื่ออยู่ใน Drive ให้อัปโหลดเอกสาร เลือก แชร์ → การเข้าถึงทั่วไป → ทุกคนที่มีลิงก์ → ผู้มีสิทธิ์ดู → คัดลอกลิงก์</small></div></div>
-                <a class="pdf-action" href="https://drive.google.com/drive/my-drive" target="_blank" rel="noopener noreferrer">เปิด Google Drive เพื่ออัปโหลดไฟล์ ↗</a>
-                <p class="pdf-link-note">หากไฟล์อยู่บนเว็บไซต์หรือบริการฝากไฟล์อื่นอยู่แล้ว ข้ามขั้นตอนนี้ได้</p>
-              </div>
-              <div class="pdf-step">
-                <div class="pdf-step-head"><span class="pdf-step-index">3</span><div><b>วางลิงก์ไฟล์ PDF ที่เปิดดูได้</b><small>ใช้ลิงก์แชร์ไฟล์ PDF จาก Google Drive หรือ URL เอกสารที่เผยแพร่ไว้</small></div></div>
-                <label for="pdf-link" class="field-label">ลิงก์ PDF <span aria-hidden="true" style="color:#b64a42">*</span></label>
-                <input class="input" id="pdf-link" type="url" inputmode="url" spellcheck="false" autocomplete="off" placeholder="https://drive.google.com/file/d/.../view">
-                <div class="pdf-actions"><button type="button" class="pdf-action secondary" id="pdf-test">ทดสอบเปิดลิงก์ PDF ↗</button></div>
-                <p class="pdf-link-note" id="pdf-link-note">แนะนำให้เปิดลิงก์ในหน้าต่างไม่ระบุตัวตน (Incognito) เพื่อตรวจว่าบุคคลทั่วไปสามารถอ่านไฟล์ได้จริง</p>
-              </div>
-              <div class="pdf-warning"><strong>สำคัญ:</strong> เว็บไซต์นี้ไม่มีระบบเก็บ PDF บนเซิร์ฟเวอร์ ไฟล์ที่เลือกจากเครื่องจะไม่ถูกอัปโหลดอัตโนมัติ QR Code จะเปิดไฟล์ได้ตราบใดที่ลิงก์ยังใช้งานได้และสิทธิ์การแชร์ยังเปิดอยู่ อย่านำเอกสารลับหรือข้อมูลส่วนบุคคลขึ้นแชร์แบบสาธารณะ</div>
+              <details class="pdf-step">
+                <summary style="cursor:pointer;font-weight:750;font-size:13px">มีลิงก์ PDF อยู่แล้ว? ใช้วิธีเดิม</summary>
+                <div style="margin-top:12px">
+                  <label for="pdf-link" class="field-label">ลิงก์ไฟล์ PDF</label>
+                  <input class="input" id="pdf-link" type="url" inputmode="url" placeholder="https://.../document.pdf">
+                  <div class="pdf-actions"><button type="button" class="pdf-action secondary" id="pdf-test">ทดสอบเปิดลิงก์ ↗</button></div>
+                  <p id="pdf-link-note" class="pdf-link-note">วางลิงก์แล้วกดปุ่ม “สร้าง QR Code” ด้านล่างได้</p>
+                </div>
+              </details>
+              <div class="pdf-warning"><strong>ข้อควรทราบ:</strong> ต้องตั้งค่าระบบเก็บไฟล์ออนไลน์โดยผู้ดูแลครั้งแรกก่อนจึงจะอัปโหลดได้ ขณะนี้ยังไม่ได้เชื่อมต่อเซิร์ฟเวอร์จัดเก็บ PDF เอกสารที่อัปโหลดในอนาคตจะเปิดได้สำหรับทุกคนที่มี QR Code จึงไม่ควรใช้กับเอกสารลับ</div>
             </div>
           </div>
           <div id="fields-text" class="hide"><div class="field"><label for="text">ข้อความที่ต้องการใส่ใน QR Code</label><textarea class="textarea" id="text" maxlength="2500" placeholder="พิมพ์ข้อความภาษาไทยหรือภาษาอังกฤษได้ที่นี่"></textarea></div></div>
@@ -1910,25 +1911,49 @@ module.exports = QRCode;
       if(u.searchParams.get('utm_source')==='chatgpt.com')u.searchParams.delete('utm_source');
       return u.href;
     }
-    $('pdf-file').addEventListener('change',async()=>{
-      const file=$('pdf-file').files[0],note=$('pdf-selection');
-      if(!file){note.textContent='ยังไม่ได้เลือกไฟล์ · หรือข้ามขั้นตอนนี้ได้หากมีลิงก์ PDF อยู่แล้ว';return;}
-      const ext=/\.pdf$/i.test(file.name),type=!file.type||file.type==='application/pdf';
-      const head=await file.slice(0,1024).text();
-      if(!ext||!type||!head.includes('%PDF-')){
-        $('pdf-file').value='';
-        note.textContent='ไฟล์ไม่ใช่ PDF ที่ถูกต้อง กรุณาเลือกไฟล์ PDF ใหม่';
-        showError('ไฟล์ที่เลือกไม่ใช่ PDF ที่อ่านได้');
-        return;
+    // Set this to the dedicated, secured backend after initial Supabase setup.
+    const PDF_UPLOAD_ENDPOINT = '';
+    const pdfFile = $('pdf-file');
+    function pdfReady() {
+      const ready = Boolean(PDF_UPLOAD_ENDPOINT && /^https:\/\/[a-z0-9-]+\.supabase\.co\/functions\/v1\/pdf-upload$/i.test(PDF_UPLOAD_ENDPOINT));
+      $('pdf-upload-config').classList.toggle('hide',!ready);
+      $('pdf-upload').disabled=!ready;
+      if(!ready)$('pdf-upload-status').textContent='ยังไม่ได้ตั้งค่าพื้นที่จัดเก็บ PDF สำหรับเว็บไซต์ ผู้ดูแลต้องเชื่อมต่อเซิร์ฟเวอร์ก่อนใช้งานครั้งแรก';
+      return ready;
+    }
+    pdfReady();
+    pdfFile.addEventListener('change',async()=>{
+      const file=pdfFile.files[0];
+      if(!file){$('pdf-selection').textContent='ยังไม่ได้เลือกไฟล์';return;}
+      if(!/\.pdf$/i.test(file.name)||file.size>5*1024*1024||file.size<5||!['','application/pdf'].includes(file.type)||new TextDecoder().decode(await file.slice(0,5).arrayBuffer())!=='%PDF-'){
+        pdfFile.value='';showError('รองรับเฉพาะ PDF ที่ถูกต้องขนาดไม่เกิน 5 MB');return;
       }
-      clearError();
-      note.textContent='เลือกแล้ว: '+file.name+' ('+(file.size/1024/1024).toFixed(2)+' MB) · ไฟล์ยังอยู่บนเครื่อง กรุณาอัปโหลดไปยัง Drive แล้ววางลิงก์ในขั้นตอนที่ 3';
+      clearError();$('pdf-selection').textContent=file.name+' · '+(file.size/1024/1024).toFixed(2)+' MB';
+    });
+    $('pdf-upload').addEventListener('click',async()=>{
+      if(!pdfReady())return;
+      const file=pdfFile.files[0],code=$('pdf-upload-code').value;
+      if(!file){showError('กรุณาเลือกไฟล์ PDF');return;}
+      if(!code){showError('กรุณากรอกรหัสสิทธิ์อัปโหลด');return;}
+      clearError();const btn=$('pdf-upload');btn.disabled=true;btn.textContent='กำลังอัปโหลด PDF...';
+      $('pdf-upload-status').textContent='กำลังส่งไฟล์ไปยังพื้นที่จัดเก็บ';
+      try{
+        const form=new FormData();form.append('file',file,file.name);
+        const response=await fetch(PDF_UPLOAD_ENDPOINT,{method:'POST',headers:{'x-upload-code':code},body:form,cache:'no-store'});
+        const data=await response.json().catch(()=>({}));
+        if(!response.ok||!data.ok||!data.url)throw Error(data.error||'อัปโหลดไม่สำเร็จ');
+        $('pdf-link').value=normalizePdfLink(data.url);
+        if(!create())throw Error('ไฟล์อัปโหลดสำเร็จ แต่สร้าง QR Code ไม่สำเร็จ');
+        $('pdf-upload-status').textContent='อัปโหลดสำเร็จ · QR Code พร้อมดาวน์โหลด';
+        inform('สร้าง QR Code สำหรับ PDF แล้ว');
+        document.querySelector('.preview-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+      }catch(e){showError(e.message||'อัปโหลดไม่สำเร็จ');$('pdf-upload-status').textContent='ไม่สามารถอัปโหลด PDF ได้';}
+      finally{btn.textContent='อัปโหลดและสร้าง QR Code';btn.disabled=false;}
     });
     $('pdf-test').addEventListener('click',()=>{
-      clearError();
-      let link;try{link=normalizePdfLink($('pdf-link').value);}catch(err){showError(err.message);return;}
+      clearError();let link;try{link=normalizePdfLink($('pdf-link').value);}catch(err){showError(err.message);return;}
       window.open(link,'_blank','noopener,noreferrer');
-      $('pdf-link-note').textContent='เปิดหน้าทดสอบแล้ว กรุณายืนยันด้วยว่าคนที่ไม่ได้เข้าสู่บัญชีของคุณก็เปิด PDF ได้';
+      $('pdf-link-note').textContent='โปรดตรวจสอบด้วยหน้าต่างไม่ระบุตัวตนว่าคนอื่นสามารถเปิด PDF ได้';
     });
     tabs.forEach(tab=>tab.addEventListener('click',()=>{
       currentType=tab.dataset.type;tabs.forEach(t=>{t.setAttribute('aria-selected',String(t===tab));t.tabIndex=t===tab?0:-1;});
