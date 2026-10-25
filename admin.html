@@ -45,10 +45,10 @@
    <div class="metric-grid">
     <article class="card metric-card"><div class="metric-heading">จำนวนไฟล์ PDF <span class="metric-icon">▤</span></div><div class="metric-num" id="fileCount">—</div><div class="metric-sub" id="fileLimit">ไฟล์ที่บันทึกในระบบ</div></article>
     <article class="card metric-card"><div class="metric-heading">ใช้พื้นที่แอป <span class="metric-icon">◫</span></div><div class="metric-num" id="storageUsed">—</div><div class="metric-sub" id="storageLimit">เทียบโควตาที่กำหนดในแอป</div></article>
-    <article class="card metric-card"><div class="metric-heading">อัปโหลด 24 ชั่วโมง <span class="metric-icon">↥</span></div><div class="metric-num" id="todayCount">—</div><div class="metric-sub" id="dailyLimit">เทียบโควตารายวัน</div></article>
+    <article class="card metric-card"><div class="metric-heading">รายการที่ใช้โควตา 24 ชม. <span class="metric-icon">↥</span></div><div class="metric-num" id="todayCount">—</div><div class="metric-sub" id="dailyLimit">เทียบโควตารายวัน</div></article>
     <article class="card metric-card"><div class="metric-heading">สถานะรับไฟล์ <span class="metric-icon">◉</span></div><div id="uploadState" style="margin:12px 0"></div><div class="metric-sub" id="sizeLimit">กำหนดขนาดไฟล์สูงสุด</div></article>
    </div>
-   <div class="section-row"><h2>วิเคราะห์การใช้งาน</h2><small class="muted">ข้อมูลอัปโหลดช่วง 7 วันที่ผ่านมา (UTC)</small></div>
+   <div class="section-row"><h2>วิเคราะห์การใช้งาน</h2><small class="muted">รายการอัปโหลดที่ยังคงอยู่ในช่วง 7 วัน (UTC)</small></div>
    <div class="grid-2">
     <div class="card"><div class="between"><h2>ปริมาณการอัปโหลด</h2><span class="pill">7 วัน</span></div><div id="chart" class="chart"></div></div>
     <div class="card"><h2>พื้นที่จัดเก็บ PDF</h2><div style="margin-top:16px"><div class="between"><strong id="usageLabel">—</strong><small class="muted" id="usagePercent">—</small></div><div class="progress"><span id="usageBar"></span></div><p class="hint">แสดงปริมาณ PDF ที่ระบบบันทึก เทียบกับโควตาที่ตั้งไว้ในแอป ไม่ใช่พื้นที่ว่างทั้งหมดของเซิร์ฟเวอร์ Supabase <a class="help-link" href="https://supabase.com/dashboard/project/efxyzgdbjckoyxxqntxj" target="_blank" rel="noopener noreferrer">ตรวจสอบโควตาและการใช้งานจริงใน Supabase ↗</a></p></div><div class="statusline"><span>จำนวนไฟล์ที่อนุญาต</span><strong id="fileUsage">—</strong></div><div class="statusline"><span>นโยบายการเก็บไฟล์</span><strong>เก็บจนกว่าผู้ดูแลจะลบ</strong></div></div>
@@ -199,7 +199,7 @@ function renderFiles(){
    if(!confirm('ยืนยันลบไฟล์ '+f.original_name+' หรือไม่?\nเมื่อถูกลบ QR Code ที่เคยสร้างจะเปิด PDF นี้ไม่ได้อีก'))return;
    if(!confirm('ยืนยันอีกครั้ง: การลบจะมีผลกับ QR Code ที่แจกไปแล้ว'))return;
    del.disabled=true;
-   try{await api('delete',{id:f.id});files=files.filter(x=>x.id!==f.id);renderFiles();toast('ลบไฟล์ PDF แล้ว');await loadDashboard();}
+   try{await api('delete',{id:f.id});files=files.filter(x=>x.id!==f.id);renderFiles();toast('ลบ PDF และคืนโควตาอัปโหลดแล้ว');await loadDashboard();}
    catch(e){toast(e.message,true);del.disabled=false;}
   });actions.append(del);tr.append(actions);table.append(tr);
  });
