@@ -188,12 +188,17 @@
     .pdf-primary-upload:disabled{opacity:.55;cursor:wait}
     .pdf-safe-note{font-size:11px;color:#6d786b;line-height:1.8;margin:0;padding:0 3px}
     @media(max-width:540px){.pdf-simple-zone{padding:19px 13px}.pdf-turnstile-box{max-width:100%;overflow:hidden}}
+    /* Discreet admin entry, protected separately by authenticated Supabase admin API. */
+    .admin-access{display:inline-flex;align-items:center;gap:7px;border:1px solid #507363;border-radius:9px;padding:10px 12px;color:#e6f2ea;font-weight:700;font-size:11px;white-space:nowrap;transition:background .2s}
+    .admin-access:hover{background:#214c3b;text-decoration:none}
+    @media(max-width:540px){.nav-badge{display:none}.admin-access{padding:9px}.admin-access span{display:none}}
   </style>
 </head>
 <body>
   <header class="topbar"><div class="shell nav">
     <div class="brand"><div class="brand-mark" aria-hidden="true"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM21 14v3m-4 4h4m-7-4v4"/></svg></div><div>QR Forever<small>STATIC QR GENERATOR</small></div></div>
     <div class="nav-badge"><span class="dot"></span> ฟรี 100% · ไม่ต้องสมัครสมาชิก</div>
+    <a href="./admin.html" class="admin-access" title="ระบบสำหรับผู้ดูแล QR Forever" aria-label="เข้าสู่หน้า Admin Dashboard">⚙ <span>ผู้ดูแลระบบ</span></a>
   </div></header>
   <section class="hero"><div class="shell hero-inner">
     <div class="eyebrow">CREATE • DOWNLOAD • USE FOREVER</div>
@@ -1920,7 +1925,7 @@ module.exports = QRCode;
     const PDF_UPLOAD_ENDPOINT='https://efxyzgdbjckoyxxqntxj.supabase.co/functions/v1/pdf-public-upload';
     const PDF_SITE_KEY='0x4AAAAAAFlJLTY3oHood4gH';
     const pdfFile=$('pdf-file');
-    let pdfWidgetId=null, pdfVerifiedToken='', pdfServerReady=null;
+    let pdfWidgetId=null, pdfVerifiedToken='', pdfServerReady=null, pdfAllowedMaxBytes=5*1048576;
 
     function initPdfTurnstile(){
       if(currentType!=='pdf'||!window.turnstile||pdfWidgetId!==null)return;
@@ -1955,8 +1960,11 @@ module.exports = QRCode;
         const r=await fetch(PDF_UPLOAD_ENDPOINT,{method:'GET',cache:'no-store'});
         const data=await r.json();
         pdfServerReady=r.ok&&data.ready===true;
+        pdfAllowedMaxBytes=Number(data.maxFileBytes)||5*1048576;
         if(!pdfServerReady){
-          $('pdf-turnstile-status').textContent='ผู้ดูแลยังไม่ได้ตั้งค่า Turnstile Secret Key บน Supabase';
+          $('pdf-turnstile-status').textContent=!data.turnstileConfigured?
+            'ผู้ดูแลยังไม่ได้ตั้งค่า Turnstile Secret Key บน Supabase':
+            (data.uploadsEnabled===false?'ผู้ดูแลปิดรับอัปโหลด PDF ชั่วคราว':'ระบบรับ PDF ยังไม่พร้อม');
         }
       }catch(e){
         pdfServerReady=false;
@@ -1973,11 +1981,11 @@ module.exports = QRCode;
       const file=pdfFile.files[0];
       if(!file){$('pdf-selection').textContent='รองรับไฟล์ PDF ขนาดไม่เกิน 5 MB';return;}
       const head=new TextDecoder().decode(await file.slice(0,5).arrayBuffer());
-      if(file.size<5||file.size>5*1024*1024||!file.name.toLowerCase().endsWith('.pdf')||
+      if(file.size<5||file.size>pdfAllowedMaxBytes||!file.name.toLowerCase().endsWith('.pdf')||
          !['','application/pdf'].includes(file.type)||head!=='%PDF-'){
         pdfFile.value='';
         $('pdf-selection').textContent='รองรับไฟล์ PDF ขนาดไม่เกิน 5 MB';
-        showError('ไฟล์ต้องเป็น PDF ที่ถูกต้องและมีขนาดไม่เกิน 5 MB');
+        showError('ไฟล์ต้องเป็น PDF ที่ถูกต้องและมีขนาดไม่เกิน '+(pdfAllowedMaxBytes/1048576)+' MB');
         return;
       }
       clearError();
