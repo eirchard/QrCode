@@ -3,13 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <script>
-    // Remove ChatGPT's optional referral query parameter from the address bar.
+    // Keep the site's address bar clean when opened through a tracked link.
     (function () {
-      const url = new URL(window.location.href);
-      if (url.searchParams.get('utm_source') === 'chatgpt.com') {
-        url.searchParams.delete('utm_source');
-        window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
+      function cleanReferralUrl() {
+        try {
+          var url = new URL(window.location.href);
+          var fromChatGPT = url.searchParams.getAll('utm_source').some(function (value) {
+            return value.toLowerCase() === 'chatgpt.com';
+          });
+          if (!fromChatGPT) return;
+          url.searchParams.delete('utm_source');
+          window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
+        } catch (err) {
+          console.warn('Could not clean referral URL:', err);
+        }
       }
+      cleanReferralUrl();
+      window.addEventListener('pageshow', cleanReferralUrl);
     })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
