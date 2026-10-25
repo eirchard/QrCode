@@ -1,19 +1,40 @@
-# PDF Upload — QR Forever
+# QR Forever — PDF Upload
 
-## สิ่งที่เว็บทำ
-ผู้ดูแลเลือก PDF (ไม่เกิน 5 MB) และกด **อัปโหลดและสร้าง QR Code** ระบบบันทึกไฟล์ลง Supabase Storage แล้วคืน Public URL เพื่อนำไปสร้าง Static QR ในเบราว์เซอร์
+หน้าเว็บ: https://eirchard.github.io/QrCode/
 
-## ต้องทำครั้งเดียวก่อนใช้
-1. สร้าง **Supabase project สำหรับ QR Forever โดยเฉพาะ** เพื่อไม่กระทบ Prompt Atelier/โปรเจกต์อื่น (ตรวจแผนราคาและโควตาก่อน)
-2. Supabase > Edge Functions: สร้าง/Deploy ชื่อ `pdf-upload` จากไฟล์ `supabase/functions/pdf-upload/index.ts` (ปิด Verify JWT เพราะ Edge Function ตรวจรหัสอัปโหลดแยกแล้ว)
-3. Supabase > Edge Functions > Secrets: เพิ่ม `QR_PDF_UPLOAD_CODE` เป็นรหัสสุ่มยาวอย่างน้อย 20 ตัวอักษร **ห้ามใส่รหัสนี้ใน index.html หรือ GitHub**. ต้องมี SUPABASE_URL และ SUPABASE_SERVICE_ROLE_KEY ฝั่งเซิร์ฟเวอร์
-4. เปิดไฟล์ `index.html` และตั้ง `PDF_UPLOAD_ENDPOINT` เป็น `https://<project-ref>.supabase.co/functions/v1/pdf-upload`
-5. Commit ไปยัง GitHub Pages แล้วเปิดเว็บไซต์ เลือก PDF กรอกรหัสและกด **อัปโหลดและสร้าง QR Code**
+## สถานะและการใช้งาน
+- ผู้ใช้ทั่วไป: เปิดเว็บ → เลือก **ไฟล์ PDF** → เลือกไฟล์ (ไม่เกิน 5 MB) → ผ่าน Turnstile → กด **อัปโหลดและสร้าง QR Code** → ดาวน์โหลด PNG/SVG
+- ไม่ต้องสมัครสมาชิกหรือเข้าสู่ระบบ และไม่ต้องนำไฟล์ขึ้น Google Drive เอง
+- ระบบจัดเก็บ: Supabase project `qr-forever-documents`, bucket `qr-forever-public-pdfs`
+- API: `pdf-public-upload` (Supabase Edge Function)
+- **ไฟล์ไม่ถูกลบอัตโนมัติ** จะเก็บไว้จนผู้ดูแลลบเอง โดยขึ้นอยู่กับสถานะบริการและโควตา
 
-## ความเป็นส่วนตัวและข้อจำกัด
-- ไฟล์ PDF ที่อัปโหลดถูกเก็บไว้ใน **public bucket**: ทุกคนที่มี URL อ่านได้ จึงห้ามใช้กับข้อมูลลับ ข้อมูลนักเรียน หรือเอกสารส่วนบุคคล
-- QR Code ไม่หมดอายุโดยตัวมันเอง แต่จะเปิด PDF ไม่ได้ถ้าลบไฟล์ ปิดโปรเจกต์ จัดเก็บเต็ม หรือโดเมนเปลี่ยน
-- พื้นที่เก็บไฟล์มีโควตา/ค่าใช้จ่ายตามผู้ให้บริการ ต้องติดตามและบริหาร
-- ระบบใช้รหัสสิทธิ์อัปโหลดเพื่อไม่ให้ใครก็ได้อัปโหลดไฟล์เข้าโครงการของคุณ
-- การตั้งค่า secret/endpoint เป็นหน้าที่ของเจ้าของระบบครั้งเดียว ผู้ใช้ทั่วไปไม่ต้องเปิด Google Drive
-- ควรเพิ่มการจัดการไฟล์ ลบไฟล์ การจำกัดปริมาณ/อัตราการอัปโหลดและการยืนยันผู้ใช้งานก่อนเปิดให้บุคคลทั่วไปใช้ในวงกว้าง
+## ตั้งค่า Turnstile ครั้งเดียว
+- Site Key (public) อยู่ใน GitHub `index.html`
+- เปิด Supabase > `qr-forever-documents` > Edge Functions > Secrets
+- เพิ่ม **TURNSTILE_SECRET_KEY** เป็น Secret Key จาก Cloudflare Turnstile แล้วกด Save
+- ห้ามใส่ Secret Key ใน GitHub, โค้ดฝั่งหน้าเว็บ หรือส่งในแชต
+- Widget ของ Cloudflare ต้องอนุญาต hostname: `eirchard.github.io`
+- Edge Function จะตรวจ token กับ Cloudflare Siteverify โดยตรวจทั้ง `success`, `hostname` และ `action` ก่อนรับไฟล์
+- ตรวจสถานะทาง `GET https://efxyzgdbjckoyxxqntxj.supabase.co/functions/v1/pdf-public-upload` (แสดง `ready: true` เมื่อพบ secret, ไม่เปิดเผย secret)
+
+## ข้อจำกัดป้องกันพื้นที่เต็ม
+- PDF สูงสุด 5 MB/ไฟล์
+- สูงสุด 3 ไฟล์จากเครือข่ายหนึ่งใน 24 ชั่วโมง
+- สูงสุด 20 ไฟล์รวมต่อ 24 ชั่วโมง
+- เก็บรวมได้สูงสุด 150 MB / 100 ไฟล์ ตามโควตาภายในของแอป
+- เป็นไฟล์สาธารณะ: ใครมี QR/URL ก็เปิดได้ ห้ามใช้กับเอกสารลับ/ข้อมูลส่วนบุคคล
+- QR Code จะยังคงรูปเดิม แต่ PDF เปิดไม่ได้หากลบไฟล์หรือโปรเจกต์จัดเก็บใช้งานไม่ได้
+
+## วิธีลบ PDF ด้วยตนเอง
+1. เปิด Supabase > `qr-forever-documents` > Storage > bucket `qr-forever-public-pdfs`
+2. เลือกไฟล์ที่ต้องการลบจากโฟลเดอร์เดือนที่อัปโหลด แล้วลบ
+3. หากต้องการให้บัญชีรายการในฐานข้อมูลตรงกัน ให้ลบรายการใน Table Editor > `qr_pdf_files` ที่มีค่า `file_path` เดียวกันด้วย
+4. ไฟล์ไม่มีระบบลบอัตโนมัติ
+
+## ทดสอบ
+1. ตรวจ GET status `ready: true`
+2. เปิดเว็บไซต์ด้วย HTTPS จริง (Turnstile อาจไม่ทำงานเมื่อเปิดไฟล์ผ่าน file://)
+3. ลอง PDF ทดสอบที่ไม่เป็นความลับ ขนาดไม่เกิน 5 MB
+4. ยืนยันว่าไฟล์อยู่ใน Supabase Storage, ดาวน์โหลดภาพ QR และสแกนเปิดเอกสารได้
+5. ตรวจ log Edge Functions เมื่อเกิดข้อผิดพลาด
