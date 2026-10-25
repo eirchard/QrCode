@@ -33,7 +33,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#0e453a">
-  <meta name="description" content="สร้าง Static QR Code ที่ไม่มีวันหมดอายุ ฟรี ไม่ต้องสมัครสมาชิก รองรับ URL ข้อความ Wi-Fi อีเมลและโทรศัพท์ ดาวน์โหลด PNG หรือ SVG ได้ทันที">
+  <meta name="description" content="สร้าง Static QR Code ที่ไม่มีวันหมดอายุ ฟรี ไม่ต้องสมัครสมาชิก รองรับ PDF ผ่านลิงก์แชร์ URL ข้อความ Wi-Fi อีเมลและโทรศัพท์ ดาวน์โหลด PNG หรือ SVG ได้ทันที">
   <title>QR Forever v6 — สร้าง QR Code พร้อม Premium QR Frame Templates</title>
   <style>
     :root{--forest:#0c4038;--forest2:#0a332d;--mint:#cfe8df;--gold:#f1c75e;--ink:#183330;--muted:#758680;--border:#dce7e1;--bg:#f4f8f5;--white:#fff;--danger:#bf3535;--radius:22px}
@@ -152,6 +152,29 @@
     .frame-preview-active .qr-frame{width:min(100%,360px)}
     @media(max-width:600px){.frame-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.frame-card img{height:175px;max-width:155px}.frame-card .frame-name{font-size:11px}.frame-kicker{font-size:8px}}
 
+    /* PDF to QR workflow — PDF files remain at the user's chosen hosting service. */
+    .tabs{grid-template-columns:repeat(6,minmax(0,1fr))}
+    .pdf-guide{display:grid;gap:14px;margin:2px 0 19px}
+    .pdf-intro{padding:14px 16px;background:#edf5ef;border:1px solid #cce5d8;border-radius:14px}
+    .pdf-intro strong{display:block;font-size:13px;color:#164939;margin-bottom:4px}
+    .pdf-intro p{font-size:12px;color:#48675b;line-height:1.8;margin:0}
+    .pdf-step{background:#fff;border:1px solid #e1e8e3;border-radius:15px;padding:16px;min-width:0}
+    .pdf-step-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px}
+    .pdf-step-index{width:27px;height:27px;flex:0 0 27px;display:grid;place-items:center;border-radius:9px;background:#174e3d;color:#fff;font-size:12px;font-weight:800}
+    .pdf-step-head b{display:block;font-size:13px;line-height:1.5}
+    .pdf-step-head small{font-size:11px;line-height:1.6;color:#698076;display:block;margin-top:2px}
+    .pdf-file-input{display:block;width:100%;font:inherit;font-size:12px;color:#3f5b4e;min-width:0}
+    .pdf-file-input::file-selector-button{font:inherit;font-size:12px;font-weight:700;color:#1d5340;background:#e8f4ec;border:1px solid #bcd8c8;padding:10px;border-radius:9px;margin-right:8px;cursor:pointer}
+    .pdf-selection{font-size:11px;color:#617468;min-height:18px;margin-top:8px;overflow-wrap:anywhere}
+    .pdf-link-note{font-size:11px;color:#75867a;line-height:1.6;margin:7px 0 0}
+    .pdf-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:11px}
+    .pdf-action{border-radius:10px;border:1px solid #b3cebd;padding:10px 14px;background:#eef7f0;color:#1d503d;font-weight:750;font-size:12px;cursor:pointer;text-decoration:none;display:inline-flex;gap:7px;align-items:center;justify-content:center}
+    .pdf-action:hover,.pdf-action:focus-visible{background:#dcefe2}
+    .pdf-action.secondary{background:white;color:#3c5e4d;border-color:#d7e4db}
+    .pdf-warning{background:#fffbec;border:1px solid #ecdca7;border-radius:12px;padding:11px 13px;color:#685821;font-size:11px;line-height:1.75}
+    .pdf-warning strong{font-weight:800}
+    @media(max-width:680px){.tabs{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;padding:14px 16px 1px}.tab{min-height:59px}.pdf-step{padding:13px}.pdf-actions{flex-direction:column;align-items:stretch}.pdf-action{width:100%}}
+
   </style>
 </head>
 <body>
@@ -171,6 +194,7 @@
         <div class="panel-head"><h2 class="panel-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21v-7m0-4V3m8 18v-9m0-4V3m8 18v-5m0-4V3M1 14h6m2-6h6m2 8h6"/></svg> ตั้งค่าคิวอาร์โค้ด</h2><p class="panel-subtitle">เลือกประเภทข้อมูลที่ต้องการสร้าง</p></div>
         <div class="tabs" role="tablist" aria-label="ประเภทข้อมูล QR Code">
           <button class="tab" data-type="url" role="tab" aria-selected="true" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7 .5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>ลิงก์</button>
+          <button class="tab" data-type="pdf" role="tab" aria-selected="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 2.8h7l5 5V21H5V2.8h2Z"/><path d="M14 3v5h5M8 13h8M8 17h6"/></svg>ไฟล์ PDF</button>
           <button class="tab" data-type="text" role="tab" aria-selected="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 11h16M4 16h10M4 21h7"/></svg>ข้อความ</button>
           <button class="tab" data-type="wifi" role="tab" aria-selected="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 8.8a16 16 0 0 1 20 0M5.3 12.2a11 11 0 0 1 13.4 0M8.8 15.5a6 6 0 0 1 6.4 0"/><path d="M12 19.5h.01" stroke-width="3"/></svg>Wi-Fi</button>
           <button class="tab" data-type="email" role="tab" aria-selected="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 7 9-7"/></svg>อีเมล</button>
@@ -185,6 +209,32 @@
             </div>
           </div>
           <div id="fields-url"><div class="field"><label for="url">ลิงก์เว็บไซต์ (URL) <span aria-hidden="true" style="color:#b64a42">*</span></label><input class="input" id="url" type="url" inputmode="url" autocomplete="url" placeholder="https://www.example.com" spellcheck="false"><p class="hint">ใช้ลิงก์ปลายทางโดยตรง ไม่ผ่านเว็บย่อลิงก์หรือระบบติดตาม</p></div></div>
+          <div id="fields-pdf" class="hide">
+            <div class="pdf-guide">
+              <div class="pdf-intro">
+                <strong>เปลี่ยนไฟล์ PDF เป็น QR Code สำหรับเปิดเอกสาร</strong>
+                <p>เมื่อสแกน QR จะเปิดเอกสารผ่านลิงก์ที่แชร์ไว้ ไม่ได้ฝังไฟล์ PDF ลงใน QR Code โดยตรง ใช้กับคู่มือ เอกสารประกอบการสอน เมนู และงานประชาสัมพันธ์ได้</p>
+              </div>
+              <div class="pdf-step">
+                <div class="pdf-step-head"><span class="pdf-step-index">1</span><div><b>เลือกไฟล์ PDF จากเครื่อง (ถ้ามี)</b><small>สำหรับตรวจสอบชื่อไฟล์ก่อนนำไปฝากบน Google Drive — ยังไม่ใช่การอัปโหลด</small></div></div>
+                <input id="pdf-file" class="pdf-file-input" type="file" accept=".pdf,application/pdf" aria-describedby="pdf-selection">
+                <p id="pdf-selection" class="pdf-selection" role="status">ยังไม่ได้เลือกไฟล์ · หรือข้ามขั้นตอนนี้ได้หากมีลิงก์ PDF อยู่แล้ว</p>
+              </div>
+              <div class="pdf-step">
+                <div class="pdf-step-head"><span class="pdf-step-index">2</span><div><b>อัปโหลด PDF ไปยัง Google Drive</b><small>เมื่ออยู่ใน Drive ให้อัปโหลดเอกสาร เลือก แชร์ → การเข้าถึงทั่วไป → ทุกคนที่มีลิงก์ → ผู้มีสิทธิ์ดู → คัดลอกลิงก์</small></div></div>
+                <a class="pdf-action" href="https://drive.google.com/drive/my-drive" target="_blank" rel="noopener noreferrer">เปิด Google Drive เพื่ออัปโหลดไฟล์ ↗</a>
+                <p class="pdf-link-note">หากไฟล์อยู่บนเว็บไซต์หรือบริการฝากไฟล์อื่นอยู่แล้ว ข้ามขั้นตอนนี้ได้</p>
+              </div>
+              <div class="pdf-step">
+                <div class="pdf-step-head"><span class="pdf-step-index">3</span><div><b>วางลิงก์ไฟล์ PDF ที่เปิดดูได้</b><small>ใช้ลิงก์แชร์ไฟล์ PDF จาก Google Drive หรือ URL เอกสารที่เผยแพร่ไว้</small></div></div>
+                <label for="pdf-link" class="field-label">ลิงก์ PDF <span aria-hidden="true" style="color:#b64a42">*</span></label>
+                <input class="input" id="pdf-link" type="url" inputmode="url" spellcheck="false" autocomplete="off" placeholder="https://drive.google.com/file/d/.../view">
+                <div class="pdf-actions"><button type="button" class="pdf-action secondary" id="pdf-test">ทดสอบเปิดลิงก์ PDF ↗</button></div>
+                <p class="pdf-link-note" id="pdf-link-note">แนะนำให้เปิดลิงก์ในหน้าต่างไม่ระบุตัวตน (Incognito) เพื่อตรวจว่าบุคคลทั่วไปสามารถอ่านไฟล์ได้จริง</p>
+              </div>
+              <div class="pdf-warning"><strong>สำคัญ:</strong> เว็บไซต์นี้ไม่มีระบบเก็บ PDF บนเซิร์ฟเวอร์ ไฟล์ที่เลือกจากเครื่องจะไม่ถูกอัปโหลดอัตโนมัติ QR Code จะเปิดไฟล์ได้ตราบใดที่ลิงก์ยังใช้งานได้และสิทธิ์การแชร์ยังเปิดอยู่ อย่านำเอกสารลับหรือข้อมูลส่วนบุคคลขึ้นแชร์แบบสาธารณะ</div>
+            </div>
+          </div>
           <div id="fields-text" class="hide"><div class="field"><label for="text">ข้อความที่ต้องการใส่ใน QR Code</label><textarea class="textarea" id="text" maxlength="2500" placeholder="พิมพ์ข้อความภาษาไทยหรือภาษาอังกฤษได้ที่นี่"></textarea></div></div>
           <div id="fields-wifi" class="hide"><div class="field"><label for="ssid">ชื่อเครือข่าย Wi-Fi (SSID)</label><input class="input" id="ssid" type="text" maxlength="150" placeholder="เช่น College-WiFi" autocomplete="off"></div><div class="input-row"><div class="field"><label for="password">รหัสผ่าน Wi-Fi</label><input class="input" id="password" type="password" maxlength="150" autocomplete="off" placeholder="รหัสผ่านเครือข่าย"></div><div class="field mini-col"><label for="security">การเข้ารหัส</label><select class="select" id="security"><option value="WPA">WPA / WPA2</option><option value="nopass">ไม่มีรหัสผ่าน</option><option value="WEP">WEP</option></select></div></div><label class="check-row" for="hidden"><input type="checkbox" id="hidden">เครือข่าย Wi-Fi แบบซ่อนชื่อ</label><p class="hint">QR Code ประเภทนี้จะเก็บรหัสผ่านไว้ในตัวภาพ ผู้ที่สแกนสามารถอ่านข้อมูลได้</p></div>
           <div id="fields-email" class="hide"><div class="field"><label for="email">ที่อยู่อีเมล</label><input class="input" id="email" type="email" inputmode="email" placeholder="name@example.com"></div><div class="field"><label for="subject">หัวข้ออีเมล (ถ้ามี)</label><input class="input" id="subject" type="text" placeholder="หัวข้ออีเมล"></div><div class="field"><label for="body">เนื้อหาอีเมล (ถ้ามี)</label><textarea class="textarea" id="body" style="min-height:75px" placeholder="ข้อความในอีเมล"></textarea></div></div>
@@ -1527,7 +1577,7 @@ module.exports = QRCode;
     'use strict';
     const $ = id => document.getElementById(id);
     const tabs = [...document.querySelectorAll('.tab')];
-    const types = ['url','text','wifi','email','phone'];
+    const types = ['url','pdf','text','wifi','email','phone'];
     const levels = {L:1,M:0,Q:3,H:2};
     const styles = {
       classic:{title:'คลาสสิก',module:'square',eye:'square',fg:'#123b33',bg:'#ffffff',end:'#123b33',gradient:false},
@@ -1711,6 +1761,7 @@ module.exports = QRCode;
         if(!['https:','http:'].includes(u.protocol)||!u.hostname||/\s/.test(value))throw new Error('กรุณาใช้ลิงก์เว็บไซต์ที่ขึ้นต้นด้วย https:// หรือ http://');
         return value;
       }
+      if(currentType==='pdf')return normalizePdfLink($('pdf-link').value);
       if(currentType==='text'){const v=$('text').value;if(!v.trim())throw new Error('กรุณากรอกข้อความ');return v;}
       if(currentType==='wifi'){
         const ssid=$('ssid').value;if(!ssid)throw new Error('กรุณากรอกชื่อเครือข่าย Wi-Fi');
@@ -1788,7 +1839,7 @@ module.exports = QRCode;
         if(advancedEnabled&&logoData&&$('ecc').value!=='H'){$('ecc').value='H';inform('ใส่โลโก้: ตั้งค่าความทนต่อความเสียหายเป็นระดับ H อัตโนมัติ');}
         const {qr,count}=makeQr(payload,$('ecc').value);
         currentMatrix=qr;currentPayload=payload;redraw();
-        $('detail').textContent=currentType==='url'?payload:({text:'ข้อความ',wifi:'เชื่อมต่อ Wi-Fi',email:'ส่งอีเมล',phone:'โทรออก'}[currentType]+' · '+count+' ไบต์');
+        $('detail').textContent=(currentType==='url'||currentType==='pdf')?(currentType==='pdf'?'PDF · ':'')+payload:({text:'ข้อความ',wifi:'เชื่อมต่อ Wi-Fi',email:'ส่งอีเมล',phone:'โทรออก'}[currentType]+' · '+count+' ไบต์');
         return true;
       }catch(e){showError('ข้อมูลยาวเกินความจุของ QR Code สำหรับระดับที่เลือก ลองย่อข้อความหรือนำโลโก้ออก');return false;}
     }
@@ -1839,6 +1890,46 @@ module.exports = QRCode;
         im.onerror=()=>{URL.revokeObjectURL(u);reject(new Error('รูปโลโก้ไม่ถูกต้องหรืออ่านไม่ได้'));};im.src=u;
       });
     }
+
+    function normalizePdfLink(raw) {
+      if(!raw)throw new Error('กรุณาวางลิงก์ PDF ที่เผยแพร่ไว้ก่อนสร้าง QR Code');
+      let u;
+      try { u=new URL(raw.trim()); } catch(_) { throw new Error('ลิงก์ PDF ไม่ถูกต้อง กรุณาใช้ลิงก์เต็มที่ขึ้นต้นด้วย https://'); }
+      if(!['https:','http:'].includes(u.protocol)||!u.hostname||u.username||u.password)
+        throw new Error('กรุณาใช้ลิงก์ไฟล์ที่ขึ้นต้นด้วย https:// หรือ http:// เท่านั้น');
+      if(u.hostname==='localhost'||/^(127|0)\./.test(u.hostname)||u.hostname.endsWith('.local'))
+        throw new Error('ลิงก์ภายในเครื่องไม่สามารถให้ผู้อื่นสแกนแล้วเปิดไฟล์ได้');
+      if(u.hostname==='drive.google.com') {
+        const isDriveFile=/^\/file\/d\/[^/]+/.test(u.pathname);
+        const isDriveId=['/open','/uc'].includes(u.pathname)&&u.searchParams.has('id');
+        if(!isDriveFile&&!isDriveId)
+          throw new Error('ลิงก์ Google Drive ต้องเป็นลิงก์แชร์ไฟล์ PDF ไม่ใช่ลิงก์โฟลเดอร์');
+      } else if(u.hostname==='docs.google.com') {
+        throw new Error('กรุณาส่งออกเอกสารเป็น PDF แล้วแชร์ไฟล์ PDF ใน Google Drive');
+      }
+      if(u.searchParams.get('utm_source')==='chatgpt.com')u.searchParams.delete('utm_source');
+      return u.href;
+    }
+    $('pdf-file').addEventListener('change',async()=>{
+      const file=$('pdf-file').files[0],note=$('pdf-selection');
+      if(!file){note.textContent='ยังไม่ได้เลือกไฟล์ · หรือข้ามขั้นตอนนี้ได้หากมีลิงก์ PDF อยู่แล้ว';return;}
+      const ext=/\.pdf$/i.test(file.name),type=!file.type||file.type==='application/pdf';
+      const head=await file.slice(0,1024).text();
+      if(!ext||!type||!head.includes('%PDF-')){
+        $('pdf-file').value='';
+        note.textContent='ไฟล์ไม่ใช่ PDF ที่ถูกต้อง กรุณาเลือกไฟล์ PDF ใหม่';
+        showError('ไฟล์ที่เลือกไม่ใช่ PDF ที่อ่านได้');
+        return;
+      }
+      clearError();
+      note.textContent='เลือกแล้ว: '+file.name+' ('+(file.size/1024/1024).toFixed(2)+' MB) · ไฟล์ยังอยู่บนเครื่อง กรุณาอัปโหลดไปยัง Drive แล้ววางลิงก์ในขั้นตอนที่ 3';
+    });
+    $('pdf-test').addEventListener('click',()=>{
+      clearError();
+      let link;try{link=normalizePdfLink($('pdf-link').value);}catch(err){showError(err.message);return;}
+      window.open(link,'_blank','noopener,noreferrer');
+      $('pdf-link-note').textContent='เปิดหน้าทดสอบแล้ว กรุณายืนยันด้วยว่าคนที่ไม่ได้เข้าสู่บัญชีของคุณก็เปิด PDF ได้';
+    });
     tabs.forEach(tab=>tab.addEventListener('click',()=>{
       currentType=tab.dataset.type;tabs.forEach(t=>{t.setAttribute('aria-selected',String(t===tab));t.tabIndex=t===tab?0:-1;});
       types.forEach(type=>$('fields-'+type).classList.toggle('hide',type!==currentType));clearError();clearPreview();
