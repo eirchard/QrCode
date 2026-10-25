@@ -1919,7 +1919,7 @@ module.exports = QRCode;
     pdfAuthUI();
     async function authCall(mode){
       const email=$('pdf-email').value.trim(),password=$('pdf-password').value;
-      if(!/^\\S+@\\S+\\.\\S+$/.test(email)||password.length<6){showError('กรอกอีเมลและรหัสผ่านอย่างน้อย 6 ตัวอักษร');return;}
+      if(!/^\S+@\S+\.\S+$/.test(email)||password.length<6){showError('กรอกอีเมลและรหัสผ่านอย่างน้อย 6 ตัวอักษร');return;}
       clearError();const url=SB_URL+'/auth/v1/'+(mode==='signup'?'signup':'token?grant_type=password');
       try {
         const resp=await fetch(url,{method:'POST',headers:{'apikey':SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({email,password})});
@@ -1937,7 +1937,7 @@ module.exports = QRCode;
     pdfFile.addEventListener('change',async()=>{
       const file=pdfFile.files[0];
       if(!file){$('pdf-selection').textContent='ยังไม่ได้เลือกไฟล์';return;}
-      if(!/\\.pdf$/i.test(file.name)||file.size>5*1024*1024||file.size<5||!['','application/pdf'].includes(file.type)||new TextDecoder().decode(await file.slice(0,5).arrayBuffer())!=='%PDF-'){
+      if(!/\.pdf$/i.test(file.name)||file.size>5*1024*1024||file.size<5||!['','application/pdf'].includes(file.type)||new TextDecoder().decode(await file.slice(0,5).arrayBuffer())!=='%PDF-'){
         pdfFile.value='';showError('รองรับเฉพาะ PDF ที่ถูกต้องขนาดไม่เกิน 5 MB');return;
       }
       clearError();$('pdf-selection').textContent=file.name+' · '+(file.size/1024/1024).toFixed(2)+' MB';
