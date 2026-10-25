@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102f29">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin Dashboard | QR Forever</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&display=swap');
+:root{--forest:#102f29;--green:#176147;--accent:#e7b95b;--bg:#f4f7f4;--line:#e1eae4;--ink:#18362b;--muted:#71837a;--card:#fff;--danger:#a7353e}
+*{box-sizing:border-box}body{margin:0;font-family:Prompt,"Noto Sans Thai",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:13px}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}.hide{display:none!important}a{color:inherit;text-decoration:none}a:hover{text-decoration:underline}input:focus,select:focus,button:focus-visible{outline:2px solid #51a87f;outline-offset:2px}
+.shell{min-height:100vh;display:grid;grid-template-columns:244px minmax(0,1fr)}.sidebar{background:var(--forest);color:#d5e7df;padding:27px 17px;display:flex;flex-direction:column;min-height:100vh;position:sticky;top:0;height:100vh}.brand{display:flex;gap:11px;align-items:center;padding:0 9px 28px;border-bottom:1px solid #355a4d}.brand-mark{width:43px;height:43px;display:grid;place-items:center;background:var(--accent);border-radius:12px;color:#173329;font-weight:900;font-size:22px}.brand b{display:block;color:#fff;font-size:18px;letter-spacing:-.6px;line-height:1.35}.brand small{font-size:10px;color:#a3c5b3;letter-spacing:1.1px}.nav-title{font-size:10px;letter-spacing:1.5px;color:#8ab09d;margin:28px 11px 12px;font-weight:700}.nav{display:grid;gap:7px}.nav-button{display:flex;align-items:center;gap:11px;border:0;background:none;color:#bed7c8;text-align:left;width:100%;padding:12px;border-radius:11px;font-weight:600}.nav-button.active,.nav-button:hover{background:#245342;color:#fff}.nav-button .ico{font-size:17px;width:20px;text-align:center}.side-footer{margin-top:auto;border-top:1px solid #355a4d;padding:17px 10px 0;display:grid;gap:9px;font-size:11px;color:#a9c6b7}.side-footer a{color:#f1d594}.main{min-width:0;padding:28px clamp(16px,3.5vw,45px) 40px;max-width:1650px;width:100%;margin:0 auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:28px}.eyebrow{font-size:10px;letter-spacing:2px;color:#438165;font-weight:800;text-transform:uppercase}.page-title{font-size:clamp(23px,2.4vw,31px);font-weight:800;letter-spacing:-1px;margin:4px 0 5px}.subtitle{color:var(--muted);font-size:12px}.top-actions{display:flex;align-items:center;gap:10px}.small-button{border:1px solid #dbe8dd;background:#fff;color:#234c3c;padding:10px 14px;border-radius:10px;font-weight:600}.small-button:hover{background:#eef7ef}.primary-button{border:0;border-radius:11px;background:#176147;color:white;font-weight:700;padding:12px 18px}.primary-button:hover{background:#0d4c36}.danger-button{border:1px solid #f0ccd0;color:var(--danger);background:#fff8f8;border-radius:9px;padding:8px 12px;font-weight:700}.danger-button:hover{background:#ffecee}
+.pill{display:inline-flex;align-items:center;gap:7px;border-radius:100px;padding:7px 11px;font-size:11px;background:#eaf5ed;color:#1f6547;font-weight:700}.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:#2eac6d}.pill.warn{color:#936622;background:#fff5e3}.pill.warn::before{background:#dfa63c}.pill.danger{background:#fff0ee;color:#a43d3b}.pill.danger::before{background:#c84a4e}
+.card{background:var(--card);border:1px solid var(--line);box-shadow:0 6px 28px rgba(22,52,33,.036);border-radius:17px;padding:23px}.metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.metric-card{min-height:150px;display:flex;flex-direction:column;justify-content:space-between}.metric-heading{color:#71837a;font-size:12px;font-weight:600;display:flex;justify-content:space-between;gap:6px;align-items:center}.metric-icon{width:36px;height:36px;display:grid;place-items:center;border-radius:11px;background:#ecf5ed;font-size:19px}.metric-num{font-size:30px;letter-spacing:-1px;font-weight:800;line-height:1.2}.metric-sub{color:#76867b;font-size:11px}.section-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:28px 0 14px}.section-row h2,.card h2{font-size:17px;letter-spacing:-.4px;margin:0;font-weight:800}.grid-2{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(290px,.8fr);gap:17px}.progress{height:11px;border-radius:100px;background:#e9efeb;overflow:hidden;margin:12px 0}.progress span{display:block;height:100%;width:0%;background:linear-gradient(90deg,#226e52,#66ad80);border-radius:inherit;transition:width .25s}.between{display:flex;justify-content:space-between;gap:12px;align-items:center}.hint{color:#77887d;font-size:11px;line-height:1.8;margin:8px 0 0}.muted{color:#78887f}.chart{display:flex;gap:12px;align-items:end;justify-content:space-around;height:165px;margin:20px 0 0;padding-bottom:23px;border-bottom:1px solid #e6eee8}.chartbar{display:flex;flex-direction:column;align-items:center;justify-content:end;gap:7px;flex:1;height:100%;min-width:0}.bar{width:100%;max-width:37px;min-height:4px;background:#6fb48d;border-radius:7px 7px 2px 2px}.chartbar small{font-size:10px;white-space:nowrap;color:#728477}.chartbar span{font-size:10px;font-weight:700;color:#476350}.statusline{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #edf1ee;padding:13px 0;gap:12px}.statusline:last-child{border:0}.statusline strong{font-size:12px}.statusline small{display:block;color:#7b8e80;font-size:10px;margin-top:2px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;text-align:left;min-width:580px}th{font-size:10px;letter-spacing:.7px;color:#78867d;background:#f7faf8;text-transform:uppercase}td,th{padding:13px 14px;border-bottom:1px solid #edf1ed}td{font-size:12px}tr:last-child td{border:0}td.filename{font-weight:600;max-width:260px;overflow-wrap:anywhere}.empty{text-align:center;color:#74867a;padding:36px 10px}.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.controls input{background:#fff;border:1px solid #dae6dc;border-radius:10px;padding:10px 12px;min-width:190px;flex:1}.section{display:none}.section.active{display:block}.setting-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:8px}.field input{width:100%;padding:12px 13px;border:1px solid #d8e3da;border-radius:11px;background:#fbfdfb}.field small{display:block;font-size:10px;color:#809087;margin-top:7px}.toggle{display:flex;align-items:center;justify-content:space-between;padding:15px;border:1px solid #dce8df;border-radius:12px;background:#f8fcf9;gap:12px}.toggle strong{font-weight:700}.toggle input{width:22px;height:22px;accent-color:#1f704f}.setting-notice{background:#fffaf0;color:#80602e;border:1px solid #f2e6ca;border-radius:12px;padding:13px 16px;font-size:11px;line-height:1.8;margin-top:18px}.settings-footer{border-top:1px solid #e8eee8;display:flex;align-items:center;justify-content:space-between;margin-top:24px;padding-top:20px;gap:14px}.toast{position:fixed;bottom:20px;right:20px;background:#153f2f;color:#fff;padding:13px 18px;border-radius:12px;box-shadow:0 7px 25px #0002;z-index:5;max-width:min(90vw,520px);display:none}.toast.show{display:block}.toast.error{background:#a33440}.login-wrap{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at top right,#26684a 0,transparent 33%),#0f3028}.login-card{background:#fff;border-radius:22px;padding:34px;width:100%;max-width:440px;box-shadow:0 20px 60px #041e1644}.login-brand{display:flex;gap:13px;align-items:center;margin-bottom:26px}.login-card h1{font-size:25px;margin:0;letter-spacing:-.6px}.login-card p{color:#76887e;line-height:1.7}.login-card .field{margin:18px 0}.login-card button.primary-button{width:100%;margin-top:12px;padding:14px}.login-note{border-top:1px solid #edf2ed;padding-top:16px;font-size:11px;color:#728579;margin-top:22px}.login-alert{background:#fff1f0;padding:12px;border-radius:9px;color:#a62f37;font-size:11px;margin-top:14px}.useremail{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#728377}.help-link{color:#2d7557;font-size:11px}
+@media(max-width:1150px){.metric-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:840px){.shell{grid-template-columns:1fr}.sidebar{height:auto;min-height:0;position:static;padding:15px}.brand{padding-bottom:13px}.nav-title,.side-footer{display:none}.nav{display:flex;gap:6px;overflow:auto;margin-top:10px}.nav-button{width:auto;min-width:max-content;padding:9px 12px}.main{padding:22px 16px}.grid-2{grid-template-columns:1fr}}@media(max-width:560px){.metric-grid,.setting-grid{grid-template-columns:1fr}.topbar{align-items:flex-start;gap:10px}.top-actions{flex-direction:column;align-items:flex-end}.card{padding:17px}.section-row h2{font-size:15px}.chart{gap:4px}.metric-card{min-height:123px}.page-title{font-size:23px}.settings-footer{flex-direction:column;align-items:stretch}}
+</style>
+</head>
+<body>
+<div id="loginPage" class="login-wrap">
+ <form id="loginForm" class="login-card" autocomplete="on">
+  <div class="login-brand"><div class="brand-mark">▦</div><div><h1>QR Forever</h1><span class="eyebrow">Administrator Portal</span></div></div>
+  <h2 style="font-size:18px;margin:0">เข้าสู่ระบบผู้ดูแล</h2><p style="font-size:12px">จัดการไฟล์ PDF ตรวจสอบสถานะพื้นที่จัดเก็บ และกำหนดโควตาการอัปโหลด</p>
+  <div class="field"><label for="email">อีเมลผู้ดูแล</label><input id="email" type="email" autocomplete="username" required placeholder="admin@example.com"></div>
+  <div class="field"><label for="password">รหัสผ่าน</label><input id="password" type="password" autocomplete="current-password" required placeholder="รหัสผ่านของบัญชี Supabase"></div>
+  <button id="loginBtn" class="primary-button" type="submit">เข้าสู่ระบบ Admin</button>
+  <p id="loginError" class="login-alert hide" role="alert"></p>
+  <div class="login-note">เฉพาะผู้ดูแลที่ได้รับอนุญาต · ไม่มีระบบสมัครสมาชิกสาธารณะ<br><a class="help-link" href="./" style="display:inline-block;margin-top:8px">← กลับหน้า QR Forever</a></div>
+ </form>
+</div>
+<div id="app" class="shell hide">
+ <aside class="sidebar">
+  <div class="brand"><div class="brand-mark">▦</div><div><b>QR Forever</b><small>ADMIN CONSOLE</small></div></div>
+  <div class="nav-title">MANAGEMENT</div>
+  <nav class="nav" aria-label="เมนูผู้ดูแล">
+    <button class="nav-button active" data-section="dashboard"><span class="ico">▦</span> ภาพรวมระบบ</button>
+    <button class="nav-button" data-section="files"><span class="ico">▤</span> จัดการไฟล์ PDF</button>
+    <button class="nav-button" data-section="settings"><span class="ico">⚙</span> ตั้งค่าระบบ</button>
+  </nav>
+  <div class="side-footer"><div>QR Forever · Secure Admin</div><a href="./">↗ เปิดหน้าเว็บไซต์หลัก</a><span>ฝ่ายงานศูนย์ดิจิทัลและสื่อสารองค์กร</span></div>
+ </aside>
+ <main class="main">
+  <header class="topbar"><div><div class="eyebrow">QR FOREVER / CONTROL CENTER</div><h1 id="pageTitle" class="page-title">Dashboard</h1><div id="pageSubtitle" class="subtitle">ภาพรวมระบบสร้าง QR Code และพื้นที่จัดเก็บ PDF</div></div><div class="top-actions"><div id="userEmail" class="useremail"></div><div class="controls"><button class="small-button" id="refreshBtn">↻ รีเฟรช</button><button class="small-button" id="logoutBtn">ออกจากระบบ</button></div></div></header>
+  <section id="sec-dashboard" class="section active">
+   <div class="metric-grid">
+    <article class="card metric-card"><div class="metric-heading">จำนวนไฟล์ PDF <span class="metric-icon">▤</span></div><div class="metric-num" id="fileCount">—</div><div class="metric-sub" id="fileLimit">ไฟล์ที่บันทึกในระบบ</div></article>
+    <article class="card metric-card"><div class="metric-heading">ใช้พื้นที่แอป <span class="metric-icon">◫</span></div><div class="metric-num" id="storageUsed">—</div><div class="metric-sub" id="storageLimit">เทียบโควตาที่กำหนดในแอป</div></article>
+    <article class="card metric-card"><div class="metric-heading">อัปโหลด 24 ชั่วโมง <span class="metric-icon">↥</span></div><div class="metric-num" id="todayCount">—</div><div class="metric-sub" id="dailyLimit">เทียบโควตารายวัน</div></article>
+    <article class="card metric-card"><div class="metric-heading">สถานะรับไฟล์ <span class="metric-icon">◉</span></div><div id="uploadState" style="margin:12px 0"></div><div class="metric-sub" id="sizeLimit">กำหนดขนาดไฟล์สูงสุด</div></article>
+   </div>
+   <div class="section-row"><h2>วิเคราะห์การใช้งาน</h2><small class="muted">ข้อมูลอัปโหลดช่วง 7 วันที่ผ่านมา (UTC)</small></div>
+   <div class="grid-2">
+    <div class="card"><div class="between"><h2>ปริมาณการอัปโหลด</h2><span class="pill">7 วัน</span></div><div id="chart" class="chart"></div></div>
+    <div class="card"><h2>พื้นที่จัดเก็บ PDF</h2><div style="margin-top:16px"><div class="between"><strong id="usageLabel">—</strong><small class="muted" id="usagePercent">—</small></div><div class="progress"><span id="usageBar"></span></div><p class="hint">แสดงปริมาณ PDF ที่ระบบบันทึก เทียบกับโควตาที่ตั้งไว้ในแอป ไม่ใช่พื้นที่ว่างทั้งหมดของเซิร์ฟเวอร์ Supabase</p></div><div class="statusline"><span>จำนวนไฟล์ที่อนุญาต</span><strong id="fileUsage">—</strong></div><div class="statusline"><span>นโยบายการเก็บไฟล์</span><strong>เก็บจนกว่าผู้ดูแลจะลบ</strong></div></div>
+   </div>
+   <div class="section-row"><h2>สถานะบริการ</h2><small class="muted">สถานะส่วนประกอบจากระบบ</small></div>
+   <div class="grid-2">
+    <div class="card"><div class="statusline"><div><strong>Supabase Storage</strong><small>พื้นที่จัดเก็บ PDF</small></div><span id="storageState" class="pill warn">กำลังตรวจสอบ</span></div><div class="statusline"><div><strong>Cloudflare Turnstile</strong><small>การยืนยันก่อนอัปโหลด</small></div><span id="turnstileState" class="pill warn">กำลังตรวจสอบ</span></div><div class="statusline"><div><strong>ความจุไฟล์สูงสุด</strong><small>จำกัดโดย Storage bucket</small></div><strong id="bucketFileMax">—</strong></div></div>
+    <div class="card"><div class="between"><h2>กิจกรรมผู้ดูแลล่าสุด</h2><small class="muted">รายการย้อนหลัง</small></div><div id="auditList" style="margin-top:9px"></div></div>
+   </div>
+   <div class="section-row"><h2>ไฟล์ที่เพิ่มล่าสุด</h2><button class="small-button" data-goto="files">ดูไฟล์ทั้งหมด</button></div>
+   <div class="card tablewrap"><table><thead><tr><th>ชื่อไฟล์</th><th>ขนาด</th><th>วันที่อัปโหลด</th><th>เปิด</th></tr></thead><tbody id="latestBody"><tr><td colspan="4" class="empty">กำลังโหลดข้อมูล</td></tr></tbody></table></div>
+  </section>
+  <section id="sec-files" class="section">
+   <div class="section-row" style="margin-top:0"><div><h2>จัดการไฟล์ PDF</h2><p class="hint">การลบไฟล์จะทำให้ QR Code เดิมเปิดเอกสารไม่ได้</p></div><button class="small-button" id="reloadFiles">↻ โหลดรายการใหม่</button></div>
+   <div class="card"><div class="controls" style="margin-bottom:14px"><input id="fileSearch" type="search" placeholder="ค้นหาชื่อไฟล์ PDF"><span id="fileListingCount" class="pill">0 ไฟล์</span></div><div class="tablewrap"><table><thead><tr><th>ชื่อไฟล์</th><th>ขนาด</th><th>เวลาอัปโหลด</th><th>วิธีอัปโหลด</th><th>การจัดการ</th></tr></thead><tbody id="filesBody"><tr><td class="empty" colspan="5">กำลังโหลดรายการ</td></tr></tbody></table></div></div>
+  </section>
+  <section id="sec-settings" class="section">
+   <div class="section-row" style="margin-top:0"><div><h2>ตั้งค่าการอัปโหลด</h2><p class="hint">ค่าที่บันทึกจะถูกใช้ฝั่งเซิร์ฟเวอร์กับการอัปโหลดครั้งถัดไป</p></div><span class="pill">เชื่อมต่อ Supabase</span></div>
+   <form class="card" id="settingsForm">
+    <div class="toggle"><div><strong>อนุญาตให้อัปโหลด PDF</strong><div class="hint">ปิดชั่วคราวเพื่อหยุดรับไฟล์ใหม่ (ไฟล์เก่ายังเปิดได้)</div></div><input id="uploads_enabled" type="checkbox" aria-label="เปิดรับอัปโหลด"></div>
+    <div class="setting-grid" style="margin-top:23px">
+     <div class="field"><label for="max_file_mb">ขนาด PDF ต่อไฟล์ (MB)</label><input id="max_file_mb" type="number" min="1" max="5" step="1" required><small>1–5 MB · ต้องไม่เกินข้อจำกัดของ Storage bucket</small></div>
+     <div class="field"><label for="max_per_ip_24h">จำนวนไฟล์ต่อเครือข่าย / 24 ชม.</label><input id="max_per_ip_24h" type="number" min="1" max="50" step="1" required><small>1–50 ไฟล์ · เหมาะกับ Wi-Fi ที่หลายคนใช้งานร่วมกัน</small></div>
+     <div class="field"><label for="max_daily_uploads">จำนวนอัปโหลดรวม / 24 ชม.</label><input id="max_daily_uploads" type="number" min="1" max="200" step="1" required><small>1–200 ไฟล์ · ควบคุมคำขอของทั้งเว็บไซต์</small></div>
+     <div class="field"><label for="max_total_files">จำนวน PDF สูงสุดในระบบ</label><input id="max_total_files" type="number" min="10" max="1000" step="1" required><small>10–1,000 ไฟล์ · ป้องกันเก็บเอกสารไม่จำกัด</small></div>
+     <div class="field"><label for="max_storage_mb">โควตาพื้นที่ของแอป (MB)</label><input id="max_storage_mb" type="number" min="20" max="1024" step="1" required><small>20–1,024 MB · เพดานในแอป ไม่ใช่แผนราคา Supabase</small></div>
+    </div>
+    <div class="setting-notice">🔒 Turnstile ยังคงบังคับใช้เสมอ · ระบบไม่ลบ PDF อัตโนมัติ · ผู้มี URL สามารถอ่านไฟล์ได้ · ปรับเพดานให้เหมาะกับโควตา Supabase ที่ใช้งานจริง</div>
+    <div class="settings-footer"><div><strong style="font-size:12px">การเปลี่ยนแปลงมีผลกับไฟล์ใหม่</strong><p class="hint" id="lastSaved">ยังไม่ทราบเวลาแก้ไขล่าสุด</p></div><button class="primary-button" id="saveSettings" type="submit">บันทึกการตั้งค่า</button></div>
+   </form>
+  </section>
+ </main>
+</div>
+<div id="toast" class="toast" role="status"></div>
+<script>
+(function(){
+'use strict';
+var SB='https://efxyzgdbjckoyxxqntxj.supabase.co';
+var KEY='sb_publishable_G8vm8eSVGTvcOAJ65aU2oQ_onsep3ZK';
+var API=SB+'/functions/v1/pdf-admin';
+var auth=null, dashboard=null, files=[];
+var el=id=>document.getElementById(id);
+var fmt=(n)=>Number(n||0).toLocaleString('th-TH');
+var mb=(n)=>(Number(n||0)/1048576).toFixed(2)+' MB';
+var date=s=>s?new Date(s).toLocaleString('th-TH',{dateStyle:'medium',timeStyle:'short'}):'—';
+function toast(text,error){var t=el('toast');t.textContent=text;t.className='toast show'+(error?' error':'');clearTimeout(window._toastTimeout);window._toastTimeout=setTimeout(()=>t.className='toast',3600);}
+function errText(data,status){return (data&&data.error)||(data&&data.msg)||(data&&data.message)||'ทำรายการไม่สำเร็จ ('+status+')';}
+function sessionSave(s){auth=s;sessionStorage.setItem('qr_admin_session',JSON.stringify(s));}
+function signout(){auth=null;dashboard=null;files=[];sessionStorage.removeItem('qr_admin_session');el('app').classList.add('hide');el('loginPage').classList.remove('hide');el('password').value='';el('loginError').classList.add('hide');}
+async function authFetch(path,body){
+ var res=await fetch(SB+'/auth/v1/'+path,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(body)});
+ var data=await res.json().catch(()=>({}));
+ if(!res.ok||!data.access_token)throw Error(errText(data,res.status));return data;
+}
+async function refreshAuth(){
+ if(!auth||!auth.refresh_token)throw Error('กรุณาเข้าสู่ระบบอีกครั้ง');
+ var s=await authFetch('token?grant_type=refresh_token',{refresh_token:auth.refresh_token});
+ sessionSave(s);return s;
+}
+async function api(action,payload){
+ if(!auth)throw Error('กรุณาเข้าสู่ระบบ');
+ async function send(){
+  var response=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY,Authorization:'Bearer '+auth.access_token},body:JSON.stringify(Object.assign({action:action},payload||{})),cache:'no-store'});
+  var data=await response.json().catch(()=>({}));
+  return {response:response,data:data};
+ }
+ var r=await send();
+ if(r.response.status===401){await refreshAuth();r=await send();}
+ if(!r.response.ok||!r.data.ok)throw Error(errText(r.data,r.response.status));
+ return r.data;
+}
+function switchTab(tab){
+ document.querySelectorAll('[data-section]').forEach(b=>b.classList.toggle('active',b.dataset.section===tab));
+ document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id==='sec-'+tab));
+ var titles={dashboard:'Dashboard',files:'จัดการไฟล์ PDF',settings:'ตั้งค่าระบบ'};
+ var subtitles={dashboard:'ภาพรวมระบบสร้าง QR Code และพื้นที่จัดเก็บ PDF',files:'ค้นหา เปิดดู และลบ PDF ที่ไม่ต้องการ',settings:'กำหนดโควตาและเปิด–ปิดการรับอัปโหลด'};
+ el('pageTitle').textContent=titles[tab];el('pageSubtitle').textContent=subtitles[tab];
+ if(tab==='files'&&files.length===0)loadFiles();
+}
+function pill(id,ok,on,off){var e=el(id);e.textContent=ok?on:off;e.className='pill'+(ok?'':' danger');}
+function textCell(value,cls){var td=document.createElement('td');td.textContent=value;if(cls)td.className=cls;return td;}
+function link(text,url){var a=document.createElement('a');a.textContent=text;a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.style.color='#236d4e';a.style.fontWeight='700';return a;}
+function renderRecent(rows){
+ var tbody=el('latestBody');tbody.replaceChildren();
+ if(!rows||!rows.length){var tr=document.createElement('tr'),td=textCell('ยังไม่มีไฟล์ PDF','empty');td.colSpan=4;tr.append(td);tbody.append(tr);return;}
+ rows.forEach(f=>{var tr=document.createElement('tr');tr.append(textCell(f.original_name,'filename'),textCell(mb(f.size_bytes)),textCell(date(f.created_at)));var td=document.createElement('td');td.append(link('เปิด PDF ↗',f.url));tr.append(td);tbody.append(tr);});
+}
+function renderAudit(list){
+ var area=el('auditList');area.replaceChildren();
+ if(!list||!list.length){area.textContent='ยังไม่มีรายการแก้ไขจากผู้ดูแล';area.className='hint';return;}
+ list.forEach(a=>{var row=document.createElement('div');row.className='statusline';var desc=document.createElement('span');desc.textContent=a.action==='settings_update'?'ปรับการตั้งค่าระบบ':'ลบ PDF';var small=document.createElement('small');small.textContent=date(a.created_at);var wrap=document.createElement('div');wrap.append(desc,small);row.append(wrap);area.append(row);});
+}
+function renderChart(rows){
+ var area=el('chart');area.replaceChildren();
+ var max=Math.max(1,...rows.map(r=>r.count));
+ rows.forEach(r=>{var c=document.createElement('div');c.className='chartbar';var n=document.createElement('span');n.textContent=fmt(r.count);var b=document.createElement('div');b.className='bar';b.style.height=Math.max(4,Math.round(r.count/max*92))+'px';var s=document.createElement('small');s.textContent=r.date.slice(8)+'/'+r.date.slice(5,7);c.append(n,b,s);area.append(c);});
+}
+function renderStats(d){
+ dashboard=d;var m=d.metrics,set=d.settings,st=d.service;
+ el('fileCount').textContent=fmt(m.fileCount);
+ el('fileLimit').textContent='สูงสุด '+fmt(set.max_total_files)+' ไฟล์';
+ el('storageUsed').textContent=mb(m.totalBytes);
+ el('storageLimit').textContent='โควตาแอป '+fmt(set.max_storage_mb)+' MB';
+ el('todayCount').textContent=fmt(m.uploads24h);
+ el('dailyLimit').textContent='สูงสุด '+fmt(set.max_daily_uploads)+' ไฟล์ / 24 ชั่วโมง';
+ el('uploadState').innerHTML='';
+ var state=document.createElement('span');state.className='pill'+(set.uploads_enabled?'':' danger');state.textContent=set.uploads_enabled?'เปิดรับอัปโหลด':'ปิดรับอัปโหลด';el('uploadState').append(state);
+ el('sizeLimit').textContent='สูงสุด '+fmt(set.max_file_mb)+' MB ต่อไฟล์';
+ var percent=Math.min(100,Math.max(0,m.totalBytes/m.permittedMaxBytes*100));
+ el('usageLabel').textContent=mb(m.totalBytes)+' / '+fmt(set.max_storage_mb)+' MB';
+ el('usagePercent').textContent=percent.toFixed(1)+'%';
+ el('usageBar').style.width=percent+'%';
+ el('fileUsage').textContent=fmt(m.fileCount)+' / '+fmt(set.max_total_files)+' ไฟล์';
+ pill('storageState',st.bucketAvailable,'พร้อมใช้งาน','ไม่พร้อมใช้งาน');
+ pill('turnstileState',st.turnstileConfigured,'ตั้งค่าแล้ว','ยังไม่ตั้งค่า');
+ el('bucketFileMax').textContent=mb(st.bucketFileLimitBytes);
+ renderChart(m.last7days||[]);renderAudit(d.audit);renderRecent(d.recentFiles);
+ loadSettings(set);el('userEmail').textContent=d.signedInAs||'ผู้ดูแล';
+}
+function loadSettings(s){
+ ['max_file_mb','max_per_ip_24h','max_daily_uploads','max_total_files','max_storage_mb'].forEach(k=>el(k).value=s[k]);
+ el('uploads_enabled').checked=!!s.uploads_enabled;
+ el('lastSaved').textContent='ปรับปรุงล่าสุด: '+date(s.updated_at);
+}
+async function loadDashboard(){
+ var btn=el('refreshBtn');btn.disabled=true;
+ try{var d=await api('dashboard');renderStats(d);toast('อัปเดตข้อมูลล่าสุดแล้ว');}
+ catch(e){toast(e.message,true);if(/สิทธิ์|403|อนุญาต/.test(e.message))signout();}
+ finally{btn.disabled=false;}
+}
+async function loadFiles(){
+ try{var r=await api('list');files=r.files||[];renderFiles();}
+ catch(e){toast(e.message,true);}
+}
+function renderFiles(){
+ var key=el('fileSearch').value.trim().toLocaleLowerCase('th');
+ var data=files.filter(f=>f.original_name.toLocaleLowerCase('th').includes(key));
+ el('fileListingCount').textContent=fmt(data.length)+' ไฟล์';
+ var table=el('filesBody');table.replaceChildren();
+ if(!data.length){var tr=document.createElement('tr'),td=textCell('ไม่พบไฟล์ PDF','empty');td.colSpan=5;tr.append(td);table.append(tr);return;}
+ data.forEach(f=>{
+  var tr=document.createElement('tr');
+  tr.append(textCell(f.original_name,'filename'),textCell(mb(f.size_bytes)),textCell(date(f.created_at)),textCell(f.source==='public'?'หน้าเว็บ':'ผู้ดูแล'));
+  var actions=document.createElement('td');
+  actions.append(link('เปิด ↗',f.url),'  ');
+  var del=document.createElement('button');del.type='button';del.className='danger-button';del.textContent='ลบ PDF';
+  del.addEventListener('click',async()=>{
+   if(!confirm('ยืนยันลบไฟล์ '+f.original_name+' หรือไม่?\nเมื่อถูกลบ QR Code ที่เคยสร้างจะเปิด PDF นี้ไม่ได้อีก'))return;
+   if(!confirm('ยืนยันอีกครั้ง: การลบจะมีผลกับ QR Code ที่แจกไปแล้ว'))return;
+   del.disabled=true;
+   try{await api('delete',{id:f.id});files=files.filter(x=>x.id!==f.id);renderFiles();toast('ลบไฟล์ PDF แล้ว');await loadDashboard();}
+   catch(e){toast(e.message,true);del.disabled=false;}
+  });actions.append(del);tr.append(actions);table.append(tr);
+ });
+}
+el('loginForm').addEventListener('submit',async event=>{
+ event.preventDefault();var btn=el('loginBtn');btn.disabled=true;el('loginError').classList.add('hide');
+ try{
+  var s=await authFetch('token?grant_type=password',{email:el('email').value.trim(),password:el('password').value});
+  sessionSave(s);el('password').value='';
+  await api('dashboard').then(data=>{el('loginPage').classList.add('hide');el('app').classList.remove('hide');renderStats(data);});
+ }catch(e){signout();el('loginError').textContent=e.message;el('loginError').classList.remove('hide');}
+ finally{btn.disabled=false;}
+});
+document.querySelectorAll('[data-section]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.section)));
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.goto)));
+el('logoutBtn').addEventListener('click',signout);
+el('refreshBtn').addEventListener('click',loadDashboard);
+el('reloadFiles').addEventListener('click',loadFiles);
+el('fileSearch').addEventListener('input',renderFiles);
+el('settingsForm').addEventListener('submit',async event=>{
+ event.preventDefault();var btn=el('saveSettings');if(!el('settingsForm').reportValidity())return;
+ var settings={uploads_enabled:el('uploads_enabled').checked};
+ ['max_file_mb','max_per_ip_24h','max_daily_uploads','max_total_files','max_storage_mb'].forEach(k=>settings[k]=Number(el(k).value));
+ if(!confirm('ยืนยันบันทึกการตั้งค่าการอัปโหลดใหม่?'))return;
+ btn.disabled=true;try{await api('settings',{settings:settings});toast('บันทึกการตั้งค่าเรียบร้อย');await loadDashboard();}
+ catch(e){toast(e.message,true);}finally{btn.disabled=false;}
+});
+(async()=>{
+ var raw=sessionStorage.getItem('qr_admin_session');if(!raw)return;
+ try{
+  auth=JSON.parse(raw);
+  if(!auth||!auth.access_token)throw Error('Invalid session');
+  var d=await api('dashboard');
+  el('loginPage').classList.add('hide');el('app').classList.remove('hide');renderStats(d);
+ }catch(e){signout();}
+})();
+})();
+</script>
+</body></html>
